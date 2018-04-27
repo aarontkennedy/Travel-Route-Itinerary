@@ -1,14 +1,107 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Road Rover</title>
+
+    <style>
+        body {
+            color: #333;
+        }
+
+        body,
+        input,
+        button {
+            line-height: 1.4;
+            font: 13px Helvetica, arial, freesans, clean, sans-serif;
+        }
+
+
+        a {
+            color: #4183C4;
+            text-decoration: none;
+        }
+
+        #examples a {
+            text-decoration: underline;
+        }
+
+        #geocomplete {
+            width: 200px
+        }
+
+        .map_canvas {
+            width: 600px;
+            height: 400px;
+            margin: 10px 20px 10px 0;
+        }
+
+        #multiple li {
+            cursor: pointer;
+            text-decoration: underline;
+        }
+    </style>
+
+
 </head>
+
 <body>
-    
-    <script   src="http://code.jquery.com/jquery-3.3.1.min.js"   integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="   crossorigin="anonymous"></script>
-    
+    <header>
+        <h1>Road Rover</h1>
+        <p>Road Rover helps you find the best places along the way! </p>
+    </header>
+
+    <section>
+        <form>
+                <input class="geocomplete" type="text" placeholder="Type in an address" size="90" />
+                <!--<input class="find" type="button" value="find" />-->
+
+                <input class="geocomplete" type="text" placeholder="Type in an address" size="90" />
+                <!--<input class="find" type="button" value="find" />-->
+        </form>
+
+        <div class="map_canvas"></div>
+
+
+    </section>
+
+    <footer>
+        <p>3 Random Dudes Web Dev</p>
+    </footer>
+
+    <script src="http://maps.googleapis.com/maps/api/js?key=AIzaSyAu3dol7hruwWbLi5SkZ5T_iJS6ru89i3w&libraries=places"></script>
+    <script src="http://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+        crossorigin="anonymous"></script>
+
+    <script src="assets/javascript/jquery.geocomplete.js"></script>
+
+    <script>
+        $(function () {
+
+            var options = {
+                map: ".map_canvas",
+                mapOptions: { zoom: 5 },
+                maxZoom: 6,
+                location: new google.maps.LatLng(41.85, -87.65)
+            };
+
+            $(".geocomplete").geocomplete();
+
+            /*
+            $(".find").click(function () {
+                $(this).parents(".location").find(".geocomplete").trigger("geocode");
+            });*/
+
+        });
+    </script>
+
+
+
+
+
 </body>
+
 </html>

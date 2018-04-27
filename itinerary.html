@@ -1,14 +1,55 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Road Rover: Itinerary</title>
+
+    <style>
+        #map {
+            height: 400px;
+            width: 100%;
+        }
+
+        ;
+    </style>
+
 </head>
+
 <body>
-    
-    <script   src="http://code.jquery.com/jquery-3.3.1.min.js"   integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="   crossorigin="anonymous"></script>
-    
+
+    <header>
+        <h1>Road Rover: Plan Your Itinerary</h1>
+        <p> Add markers to indicate desired waypoints and detours.</p>
+    </header>
+
+    <section>
+        <div id="map"></div>
+        <div id="tripInfo"></div>
+        <div>
+            <button id="addWaypoint">Add a Waypoint Marker</button>
+            <button id="removeWaypoint">Remove Last Waypoint Marker</button>
+            <button id="submitWaypoints">Submit</button>
+            <button id="restart">Restart</button>
+        </div>
+
+        <div id="exportData">
+
+        </div>
+    </section>
+
+    <footer>
+        <p>3 Random Dudes Web Dev</p>
+    </footer>
+
+    <script src="http://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+        crossorigin="anonymous"></script>
+    <script src="assets/javascript/itinerary.js"></script>
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAu3dol7hruwWbLi5SkZ5T_iJS6ru89i3w&callback=initMap"></script>
+    </script>
+
 </body>
+
 </html>
