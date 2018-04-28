@@ -28,12 +28,13 @@
     <section>
         <div id="map"></div>
         <div id="tripInfo"></div>
-        <div>
+        <form id="chooseWayPointsForm" action="chooseAttractions.html"  method="GET">
+            <input type="hidden" id="itineraryKey" name="itineraryKey"/>
             <button id="addWaypoint">Add a Waypoint Marker</button>
             <button id="removeWaypoint">Remove Last Waypoint Marker</button>
-            <button id="submitWaypoints">Submit</button>
+            <button type="submit" id="submitWaypoints">Start Finding Attractions</button>
             <button id="restart">Restart</button>
-        </div>
+        </form>
 
         <div id="exportData">
 
