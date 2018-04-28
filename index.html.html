@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0" />
+    <title>Road Rover</title>
+
+    <meta name="google-signin-scope" content="profile email">
+    <meta name="google-signin-client_id" content="904916758198-0fd2b7ldt50dagv2ks4kk52j2dp99ga7.apps.googleusercontent.com">
+    <!-- For Google Sign-In Button -->
+    <script src="https://apis.google.com/js/platform.js" async defer></script>
+
+    <!-- CSS -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="assets/css/materialize.css" type="text/css" rel="stylesheet" media="screen,projection" />
+    <link href="assets/css/style.css" type="text/css" rel="stylesheet" media="screen,projection" />
+
+    <!-- Firebase -->
+    <script src="https://www.gstatic.com/firebasejs/4.13.0/firebase.js"></script>
+
+    <!-- jQuery -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.js"></script>
+
+</head>
+
+<body>
+
+    <nav class="grey" role="navigation">
+        <div class="nav-wrapper container">
+            <a href="#" class="left brand-logo">Road Rover</a>
+            <ul class="right hide-on-med-and-down">
+                <li>
+                    <a href="#">Navbar Link</a>
+                </li>
+            </ul>
+
+            <ul id="nav-mobile" class="sidenav">
+                <li>
+                    <a href="#">Navbar Link</a>
+                </li>
+            </ul>
+            <a href="#" data-target="nav-mobile" class="sidenav-trigger">
+                <i class="material-icons">menu</i>
+            </a>
+        </div>
+    </nav>
+
+    <div class="section no-pad-bot" id="index-banner">
+        <div class="container">
+            <br>
+            <br>
+            <h1 class="header center black-text">Road Rover</h1>
+            <div class="row center">
+                <h5 class="header col s12 light">Modern travel utility for road trip planning</h5>
+            </div>
+        </div>
+    </div>
+
+    <div id="cityDetail" class="row" style="visibility: hidden">
+        <form id="cityDetailForm" action="sayhello" class="col s12">
+            <div class="row">
+                <div class="input-field col s12">
+                    <textarea id="cityStart" class="materialize-textarea"></textarea>
+                    <label for="cityStart">City Start</label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="input-field col s12">
+                    <textarea id="cityEnd" class="materialize-textarea"></textarea>
+                    <label for="cityEnd">City End</label>
+                    <input type="submit" value="Send data to Firebase!">
+                </div>
+            </div>
+        </form>
+    </div>
+
+
+    <div class="row center">
+        <div class="g-signin2" data-onsuccess="onSignIn" data-theme="dark"></div>
+        <a href="#" id="sign-in button" class="btn-large waves-effect waves-light orange" onclick="signOut();">Sign-Out</a>
+        <script>
+            function signOut() {
+                var auth2 = gapi.auth2.getAuthInstance();
+                auth2.signOut().then(function () {
+                    console.log('User signed out.');
+                });
+
+                cityDetail.style.visibility = "hidden";
+            }
+        </script>
+    </div>
+    <script>
+        function onSignIn(googleUser) {
+            // Useful data for your client-side scripts:
+            newGoogleUser = googleUser;
+            var profile = googleUser.getBasicProfile();
+            console.log("ID: " + profile.getId()); // Don't send this directly to your server!
+            console.log('Full Name: ' + profile.getName());
+            console.log("Email: " + profile.getEmail());
+
+            // The ID token you need to pass to your backend:
+            var id_token = googleUser.getAuthResponse().id_token;
+            console.log("ID Token: " + id_token);
+
+            cityDetail.style.visibility = "visible";
+        };
+    </script>
+
+    <!-- Footer -->
+    <footer class="page-footer orange">
+        <div class="footer-copyright">
+            <div class="container">
+                <a class="orange-text text-lighten-3">Copyright 2018 University of Minnesota Coding Boot Camp</a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        var newGoogleUser;
+
+        $('#cityDetailForm').submit(function (ev) {
+            ev.preventDefault(); // to stop the form from submitting
+
+            //add validation
+
+            var config = {
+                apiKey: "AIzaSyCsejc1vdCE6YunawSCfcf6KkCVFsJ-ngE",
+                authDomain: "travel-route-itinerary.firebaseapp.com",
+                databaseURL: "https://travel-route-itinerary.firebaseio.com",
+                projectId: "travel-route-itinerary",
+                storageBucket: "",
+                messagingSenderId: "97436947960"
+            };
+
+            firebase.initializeApp(config);
+
+            var profile = newGoogleUser.getBasicProfile();
+            var id_token = newGoogleUser.getAuthResponse().id_token;
+
+            var dataRef = firebase.database();
+
+            dataRef.ref().push({
+                id: profile.getId(),
+                fullName: profile.getName(),
+                tokenId: id_token,
+                cityStart: this.cityStart.value,
+                cityEnd: this.cityEnd.value,
+                dateAdded: firebase.database.ServerValue.TIMESTAMP
+            });
+
+            console.log("Push to firebase complete!");
+
+            //add redirect to page 2
+
+        });
+    </script>
+</body>
+
+</html>
