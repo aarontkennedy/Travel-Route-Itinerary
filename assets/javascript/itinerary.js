@@ -45,34 +45,47 @@ function initMap() {
             console.log(snapshot.val());
             let sv = snapshot.val();
             startingPointAddress = sv.start;
+            startingPointLatLng = sv.startLatLng;
             destinationAddress = sv.end;
+            destinationLatLng = sv.endLatLng;
 
-            // get the lat and lng for the starting point and destination
-            geocoder.geocode({ 'address': startingPointAddress }, function (results, status) {
-                if (status == 'OK') {
-                    startingPointLatLng = {
-                        lat: results[0].geometry.location.lat(),
-                        lng: results[0].geometry.location.lng()
-                    };
-                    console.log(results[0]);
-                }
-                else {
-                    alert('Geocode was not successful for the following reason: ' + status);
-                }
-            });
+            if (!startingPointLatLng) {
+                // get the lat and lng for the starting point and destination
+                geocoder.geocode({ 'address': startingPointAddress }, function (results, status) {
+                    if (status == 'OK') {
+                        startingPointLatLng = {
+                            lat: results[0].geometry.location.lat(),
+                            lng: results[0].geometry.location.lng()
+                        };
+                        database.ref(itineraryPath).child(firebaseItineraryKey).update({
+                            startLatLng: startingPointLatLng
+                        });
+                        console.log(results[0]);
+                    }
+                    else {
+                        alert('Geocode was not successful for the following reason: ' + status);
+                    }
+                });
+            }
 
-            geocoder.geocode({ 'address': destinationAddress }, function (results, status) {
-                if (status == 'OK') {
-                    destinationLatLng = {
-                        lat: results[0].geometry.location.lat(),
-                        lng: results[0].geometry.location.lng()
-                    };
-                    console.log(results[0]);
-                }
-                else {
-                    alert('Geocode was not successful for the following reason: ' + status);
-                }
-            });
+            if (!destinationLatLng) {
+                geocoder.geocode({ 'address': destinationAddress }, function (results, status) {
+                    if (status == 'OK') {
+                        destinationLatLng = {
+                            lat: results[0].geometry.location.lat(),
+                            lng: results[0].geometry.location.lng()
+                        };
+                        database.ref(itineraryPath).child(firebaseItineraryKey).update({
+                            endLatLng: destinationLatLng
+                        });
+                        debugger
+                        console.log(results[0]);
+                    }
+                    else {
+                        alert('Geocode was not successful for the following reason: ' + status);
+                    }
+                });
+            }
 
             displayRoute();
             setUpCustomWaypointButtons();
@@ -156,7 +169,10 @@ function setUpCustomWaypointButtons() {
 
             let midpointLatLng = { lat: (startingPointLatLng.lat + destinationLatLng.lat) / 2, lng: (startingPointLatLng.lng + destinationLatLng.lng) / 2 };
 
-            $("#addWaypoint").on("click", function () {
+            $("#addWaypoint").on("click", function (e) {
+                e.preventDefault();
+                e.stopPropagation();
+                debugger
                 var marker = new google.maps.Marker({
                     position: midpointLatLng,
                     map: gMap,
@@ -167,7 +183,10 @@ function setUpCustomWaypointButtons() {
                 waypointMarkers.push(marker);
             });
 
-            $("#removeWaypoint").on("click", function () {
+            $("#removeWaypoint").on("click", function (e) {
+                e.preventDefault();
+                e.stopPropagation();
+                debugger
                 if (waypointMarkers.length > 0) {
                     let markerToDelete = waypointMarkers.pop();
                     markerToDelete.setMap(null);
@@ -175,10 +194,14 @@ function setUpCustomWaypointButtons() {
                 }
             });
 
-            $("#submitWaypoints").on("click", function () {
+            $("#chooseWayPointsForm").on("submit", function (e) {
+                alert();
+                debugger
+                $("#itineraryKey").val(firebaseItineraryKey);
 
-                tripLocations.push({ address: startingPointAddress, latlng: startingPointLatLng });
                 for (let i = 0; i < waypointMarkers.length; i++) {
+                    // append itinerary key to the get action
+
                     tripLocations.push({
                         address: "",
                         latlng: {
@@ -187,12 +210,12 @@ function setUpCustomWaypointButtons() {
                         }
                     });
                 }
-                tripLocations.push({ address: destinationAddress, latlng: destinationLatLng });
-                console.log(tripLocations);
             });
 
-            $("#restart").on("click", function () {
-                alert($(this).text());
+            $("#restart").on("click", function (e) {
+                e.preventDefault();
+                e.stopPropagation();
+                alert($(this).text());  
             });
 
 
