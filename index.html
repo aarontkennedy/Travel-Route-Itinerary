@@ -7,44 +7,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0" />
     <title>Road Rover</title>
 
-    <style>
-        body {
-            color: #333;
-        }
-
-        body,
-        input,
-        button {
-            line-height: 1.4;
-            font: 13px Helvetica, arial, freesans, clean, sans-serif;
-        }
-
-
-        a {
-            color: #4183C4;
-            text-decoration: none;
-        }
-
-        #examples a {
-            text-decoration: underline;
-        }
-
-        #geocomplete {
-            width: 200px
-        }
-
-        .map_canvas {
-            width: 600px;
-            height: 400px;
-            margin: 10px 20px 10px 0;
-        }
-
-        #multiple li {
-            cursor: pointer;
-            text-decoration: underline;
-        }
-    </style>
-
     <meta name="google-signin-scope" content="profile email">
     <meta name="google-signin-client_id" content="904916758198-0fd2b7ldt50dagv2ks4kk52j2dp99ga7.apps.googleusercontent.com">
     <!-- For Google Sign-In Button -->
@@ -54,13 +16,6 @@
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link href="assets/css/materialize.css" type="text/css" rel="stylesheet" media="screen,projection" />
     <link href="assets/css/style.css" type="text/css" rel="stylesheet" media="screen,projection" />
-
-    <!-- Firebase -->
-    <script src="https://www.gstatic.com/firebasejs/4.13.0/firebase.js"></script>
-
-    <!-- jQuery -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.js"></script>
-
 </head>
 
 <body>
@@ -93,6 +48,14 @@
             <div class="row center">
                 <h5 class="header col s12 light">Modern travel utility for road trip planning</h5>
             </div>
+            <div class="row center">
+                <form id="citySelection" action="itinerary.html" method="GET"> 
+                    <input type="hidden" id="itineraryKey" name="itineraryKey" />
+                    <input class="geocomplete" id="startingLocation" type="text" placeholder="Starting Location" required/>
+                    <input class="geocomplete" id="finalDestination" type="text" placeholder="Destination" required/>
+                    <button type="submit">Start Planning Your Trip!</button>
+                </form>
+            </div>
         </div>
     </div>
 
@@ -118,33 +81,7 @@
     <div class="row center">
         <div class="g-signin2" data-onsuccess="onSignIn" data-theme="dark"></div>
         <a href="#" id="sign-in button" class="btn-large waves-effect waves-light orange" onclick="signOut();">Sign-Out</a>
-        <script>
-            function signOut() {
-                var auth2 = gapi.auth2.getAuthInstance();
-                auth2.signOut().then(function () {
-                    console.log('User signed out.');
-                });
-
-                cityDetail.style.visibility = "hidden";
-            }
-        </script>
     </div>
-    <script>
-        function onSignIn(googleUser) {
-            // Useful data for your client-side scripts:
-            newGoogleUser = googleUser;
-            var profile = googleUser.getBasicProfile();
-            console.log("ID: " + profile.getId()); // Don't send this directly to your server!
-            console.log('Full Name: ' + profile.getName());
-            console.log("Email: " + profile.getEmail());
-
-            // The ID token you need to pass to your backend:
-            var id_token = googleUser.getAuthResponse().id_token;
-            console.log("ID Token: " + id_token);
-
-            cityDetail.style.visibility = "visible";
-        };
-    </script>
 
     <!-- Footer -->
     <footer class="page-footer orange">
@@ -155,45 +92,14 @@
         </div>
     </footer>
 
-    <script>
-        var newGoogleUser;
-
-        $('#cityDetailForm').submit(function (ev) {
-            ev.preventDefault(); // to stop the form from submitting
-
-            //add validation
-
-            var config = {
-                apiKey: "AIzaSyCsejc1vdCE6YunawSCfcf6KkCVFsJ-ngE",
-                authDomain: "travel-route-itinerary.firebaseapp.com",
-                databaseURL: "https://travel-route-itinerary.firebaseio.com",
-                projectId: "travel-route-itinerary",
-                storageBucket: "",
-                messagingSenderId: "97436947960"
-            };
-
-            firebase.initializeApp(config);
-
-            var profile = newGoogleUser.getBasicProfile();
-            var id_token = newGoogleUser.getAuthResponse().id_token;
-
-            var dataRef = firebase.database();
-
-            dataRef.ref().push({
-                id: profile.getId(),
-                fullName: profile.getName(),
-                tokenId: id_token,
-                cityStart: this.cityStart.value,
-                cityEnd: this.cityEnd.value,
-                dateAdded: firebase.database.ServerValue.TIMESTAMP
-            });
-
-            console.log("Push to firebase complete!");
-
-            //add redirect to page 2
-
-        });
-    </script>
+    <script src="http://maps.googleapis.com/maps/api/js?key=AIzaSyAu3dol7hruwWbLi5SkZ5T_iJS6ru89i3w&libraries=places"></script>
+    <script src="http://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+        crossorigin="anonymous"></script>
+    <script src="https://www.gstatic.com/firebasejs/4.13.0/firebase.js"></script>
+    <!-- scripts needed for the cities form-->
+    <script src="assets/javascript/jquery.geocomplete.js"></script>
+    <script src="assets/javascript/firebaseDatabaseSetup.js"></script>
+    <script src="assets/javascript/indexCitiesForm.js"></script>
 </body>
 
 </html>

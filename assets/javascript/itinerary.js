@@ -5,13 +5,27 @@ let directionsService = null;
 let distanceService = null;
 
 // assume I was passed a starting point and end point
-let startingPointAddress = "Minneapolis, MN";
+let startingPointAddress = "";
 let startingPointLatLng = null;
-let destinationAddress = "Austin, TX";
+let destinationAddress = "";
 let destinationLatLng = null;
 
 let waypointMarkers = [];
 let tripLocations = [];
+
+// http://www.jquerybyexample.net/2012/06/get-url-parameters-using-jquery.html
+function GetURLParameter(sParam) {
+    var sPageURL = window.location.search.substring(1);
+    var sURLVariables = sPageURL.split('&');
+    for (var i = 0; i < sURLVariables.length; i++) {
+        var sParameterName = sURLVariables[i].split('=');
+        if (sParameterName[0] == sParam) {
+            return sParameterName[1];
+        }
+    }
+}
+
+let firebaseItineraryKey = GetURLParameter('itineraryKey');
 
 function initMap() {
     geocoder = new google.maps.Geocoder();
@@ -24,32 +38,51 @@ function initMap() {
         scrollwheel: false
     });
 
-    // get the lat and lng for the starting point and destination
-    geocoder.geocode({ 'address': startingPointAddress }, function (results, status) {
-        if (status == 'OK') {
-            startingPointLatLng = {
-                lat: results[0].geometry.location.lat(),
-                lng: results[0].geometry.location.lng()
-            };
-            console.log(results[0]);
-        }
-        else {
-            alert('Geocode was not successful for the following reason: ' + status);
-        }
-    });
+    // we should have an itinerary key and we can pull the city data
+    // from firebase else epic fail
+    if (firebaseItineraryKey) {
+        database.ref(itineraryPath).child(firebaseItineraryKey).once('value').then(function (snapshot) {
+            console.log(snapshot.val());
+            let sv = snapshot.val();
+            startingPointAddress = sv.start;
+            destinationAddress = sv.end;
 
-    geocoder.geocode({ 'address': destinationAddress }, function (results, status) {
-        if (status == 'OK') {
-            destinationLatLng = {
-                lat: results[0].geometry.location.lat(),
-                lng: results[0].geometry.location.lng()
-            };
-            console.log(results[0]);
-        }
-        else {
-            alert('Geocode was not successful for the following reason: ' + status);
-        }
-    });
+            // get the lat and lng for the starting point and destination
+            geocoder.geocode({ 'address': startingPointAddress }, function (results, status) {
+                if (status == 'OK') {
+                    startingPointLatLng = {
+                        lat: results[0].geometry.location.lat(),
+                        lng: results[0].geometry.location.lng()
+                    };
+                    console.log(results[0]);
+                }
+                else {
+                    alert('Geocode was not successful for the following reason: ' + status);
+                }
+            });
+
+            geocoder.geocode({ 'address': destinationAddress }, function (results, status) {
+                if (status == 'OK') {
+                    destinationLatLng = {
+                        lat: results[0].geometry.location.lat(),
+                        lng: results[0].geometry.location.lng()
+                    };
+                    console.log(results[0]);
+                }
+                else {
+                    alert('Geocode was not successful for the following reason: ' + status);
+                }
+            });
+
+            displayRoute();
+            setUpCustomWaypointButtons();
+        });
+
+    }
+    else {
+        alert("epic fail");
+        // return to original page
+    }
 
 }  // called by the google maps api callback
 
@@ -114,7 +147,6 @@ function displayRoute() {
         }
     }, 250);
 }
-displayRoute();
 
 function setUpCustomWaypointButtons() {
     // poll and make sure we have the lat/lng for our two endpoints
@@ -168,4 +200,3 @@ function setUpCustomWaypointButtons() {
         }
     }, 250);
 }
-setUpCustomWaypointButtons();

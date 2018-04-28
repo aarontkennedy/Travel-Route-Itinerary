@@ -10,22 +10,6 @@ $(document).ready(function () {
     initializeAddressAutocomplete();
 
 
-    // Initialize Firebase
-    var config = {
-        apiKey: "AIzaSyBhlawP2CJCdBGTT9v3AFJXSd1WuDRuFkE",
-        authDomain: "mysandbox-d3105.firebaseapp.com",
-        databaseURL: "https://mysandbox-d3105.firebaseio.com",
-        projectId: "mysandbox-d3105",
-        storageBucket: "mysandbox-d3105.appspot.com",
-        messagingSenderId: "701778948919"
-    };
-    firebase.initializeApp(config);
-    // Create a variable to reference the database.
-    let database = firebase.database();
-    let databasePath = "roadRover"
-    let itineraryPath = databasePath + "/itinerary";
-
-
     // we need to get the cities requested if the form is valid
     // then create/start the itinerary with the two cities.
     // go to the itinerary page 
@@ -33,8 +17,7 @@ $(document).ready(function () {
     function setUpListenForFormSubmission() {
 
         cityForm.on("submit", function (event) {
-            event.preventDefault();
-            event.stopPropagation();
+
             // validates the input from the user's name
             if (cityForm[0].checkValidity() === false) {
                 event.stopPropagation();
@@ -52,12 +35,13 @@ $(document).ready(function () {
                     key: itineraryKey,
                     owner: "",
                     start: startingPoint,
-                    startLatLng: "", 
+                    startLatLng: "",
                     end: destination,
                     endLatLng: ""
                 });
-                debugger
 
+                // append itinerary key to the get action
+                $("#itineraryKey").val(itineraryKey);
             }
         });
     }
