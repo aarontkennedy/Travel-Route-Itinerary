@@ -13,17 +13,6 @@ let destinationLatLng = null;
 let waypointMarkers = [];
 let tripLocations = [];
 
-// http://www.jquerybyexample.net/2012/06/get-url-parameters-using-jquery.html
-function GetURLParameter(sParam) {
-    var sPageURL = window.location.search.substring(1);
-    var sURLVariables = sPageURL.split('&');
-    for (var i = 0; i < sURLVariables.length; i++) {
-        var sParameterName = sURLVariables[i].split('=');
-        if (sParameterName[0] == sParam) {
-            return sParameterName[1];
-        }
-    }
-}
 
 let firebaseItineraryKey = GetURLParameter('itineraryKey');
 
@@ -78,7 +67,6 @@ function initMap() {
                         database.ref(itineraryPath).child(firebaseItineraryKey).update({
                             endLatLng: destinationLatLng
                         });
-                        debugger
                         console.log(results[0]);
                     }
                     else {
@@ -172,7 +160,7 @@ function setUpCustomWaypointButtons() {
             $("#addWaypoint").on("click", function (e) {
                 e.preventDefault();
                 e.stopPropagation();
-                debugger
+
                 var marker = new google.maps.Marker({
                     position: midpointLatLng,
                     map: gMap,
@@ -186,7 +174,7 @@ function setUpCustomWaypointButtons() {
             $("#removeWaypoint").on("click", function (e) {
                 e.preventDefault();
                 e.stopPropagation();
-                debugger
+
                 if (waypointMarkers.length > 0) {
                     let markerToDelete = waypointMarkers.pop();
                     markerToDelete.setMap(null);
@@ -195,12 +183,9 @@ function setUpCustomWaypointButtons() {
             });
 
             $("#chooseWayPointsForm").on("submit", function (e) {
-                alert();
-                debugger
                 $("#itineraryKey").val(firebaseItineraryKey);
 
                 for (let i = 0; i < waypointMarkers.length; i++) {
-                    // append itinerary key to the get action
 
                     tripLocations.push({
                         address: "",
@@ -210,12 +195,24 @@ function setUpCustomWaypointButtons() {
                         }
                     });
                 }
+                // it will be easier if we put the starting location at the front of the
+                // waypoint array
+                tripLocations.unshift({ address: startingPointAddress,
+                    latlng: startingPointLatLng });
+                // it will also be easier if we put the ending destination at the end of the
+                // array    
+                tripLocations.push({ address: destinationAddress,
+                    latlng: destinationLatLng });
+                // update the database with all the locations
+                database.ref(itineraryPath).child(firebaseItineraryKey).update({
+                    waypoints: tripLocations
+                });
             });
 
             $("#restart").on("click", function (e) {
                 e.preventDefault();
                 e.stopPropagation();
-                alert($(this).text());  
+                alert($(this).text());
             });
 
 

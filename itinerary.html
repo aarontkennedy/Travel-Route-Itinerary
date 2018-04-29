@@ -7,6 +7,10 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Road Rover: Itinerary</title>
 
+    <!-- CSS -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="assets/css/materialize.css" type="text/css" rel="stylesheet" media="screen,projection" />
+    <link href="assets/css/style.css" type="text/css" rel="stylesheet" media="screen,projection" />
     <style>
         #map {
             height: 400px;
@@ -20,29 +24,47 @@
 
 <body>
 
-    <header>
-        <h1>Road Rover: Plan Your Itinerary</h1>
-        <p> Add markers to indicate desired waypoints and detours.</p>
-    </header>
+    <nav class="grey" role="navigation">
+        <div class="nav-wrapper container">
+            <a href="#" class="left brand-logo">Road Rover</a>
+            <ul class="right hide-on-med-and-down">
+                <li>
+                    <a href="#">Navbar Link</a>
+                </li>
+            </ul>
+
+            <ul id="nav-mobile" class="sidenav">
+                <li>
+                    <a href="#">Navbar Link</a>
+                </li>
+            </ul>
+            <a href="#" data-target="nav-mobile" class="sidenav-trigger">
+                <i class="material-icons">menu</i>
+            </a>
+        </div>
+    </nav>
 
     <section>
         <div id="map"></div>
         <div id="tripInfo"></div>
-        <form id="chooseWayPointsForm" action="chooseAttractions.html"  method="GET">
-            <input type="hidden" id="itineraryKey" name="itineraryKey"/>
+        <form id="chooseWayPointsForm" action="chooseAttractions.html" method="GET">
+            <input type="hidden" id="itineraryKey" name="itineraryKey" />
             <button id="addWaypoint">Add a Waypoint Marker</button>
             <button id="removeWaypoint">Remove Last Waypoint Marker</button>
             <button type="submit" id="submitWaypoints">Start Finding Attractions</button>
             <button id="restart">Restart</button>
         </form>
 
-        <div id="exportData">
-
         </div>
     </section>
 
-    <footer>
-        <p>3 Random Dudes Web Dev</p>
+    <!-- Footer -->
+    <footer class="page-footer orange">
+        <div class="footer-copyright">
+            <div class="container">
+                <a class="orange-text text-lighten-3">Copyright 2018 University of Minnesota Coding Boot Camp</a>
+            </div>
+        </div>
     </footer>
 
     <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
