@@ -155,14 +155,12 @@ function setUpCustomWaypointButtons() {
         if (startingPointLatLng && destinationLatLng) {
             clearInterval(intervalID);
 
-            let midpointLatLng = { lat: (startingPointLatLng.lat + destinationLatLng.lat) / 2, lng: (startingPointLatLng.lng + destinationLatLng.lng) / 2 };
-
             $("#addWaypoint").on("click", function (e) {
                 e.preventDefault();
                 e.stopPropagation();
 
                 var marker = new google.maps.Marker({
-                    position: midpointLatLng,
+                    position: gMap.getCenter(),
                     map: gMap,
                     title: 'Drag to where you want a waypoint.',
                     draggable: true,

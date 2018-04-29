@@ -15,7 +15,7 @@ function initialize() {
         database.ref(itineraryPath).child(firebaseItineraryKey).once('value').then(function (snapshot) {
             console.log(snapshot.val());
             dbSnapshot = snapshot.val();
-            
+
             for (let i = 0; i < dbSnapshot.waypoints.length; i++) {
                 if (!dbSnapshot.waypoints[i].address && dbSnapshot.waypoints[i].latlng) {
 
@@ -26,8 +26,8 @@ function initialize() {
                             numberOfGeocodeCallsToWaitFor--;
                             if (status == 'OK') {
                                 console.log(results);
-                                let bestAddressIndex = results.length - 1;
-                                // can I count on at least 1?
+                                let bestAddressIndex = ((results.length) ? 1 : 0);
+
                                 for (let j = 0; j < results.length; j++) {
                                     if (results[j].types.indexOf("locality") != -1) {
                                         bestAddressIndex = j;
@@ -85,7 +85,9 @@ function paintPageWithItineraryInformation() {
             for (let i = 0; i < dbSnapshot.waypoints.length; i++) {
 
                 // Philip, you may want to change this and add to this
-                addWaypoint(waypointHTML(dbSnapshot.waypoints[i].address));
+                if (dbSnapshot.waypoints[i].address) {
+                    addWaypoint(waypointHTML(dbSnapshot.waypoints[i].address));
+                }
 
 
 
