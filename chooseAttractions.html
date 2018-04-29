@@ -1,15 +1,69 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Road Rover: Choose Attractions</title>
-</head>
-<body>
-    
 
-    <script   src="http://code.jquery.com/jquery-3.3.1.min.js"   integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="   crossorigin="anonymous"></script>
-    
+    <!-- CSS -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="assets/css/materialize.css" type="text/css" rel="stylesheet" media="screen,projection" />
+    <link href="assets/css/style.css" type="text/css" rel="stylesheet" media="screen,projection" />
+
+</head>
+
+<body>
+
+    <nav class="grey" role="navigation">
+        <div class="nav-wrapper container">
+            <a href="#" class="left brand-logo">Road Rover</a>
+            <ul class="right hide-on-med-and-down">
+                <li>
+                    <a href="#">Navbar Link</a>
+                </li>
+            </ul>
+
+            <ul id="nav-mobile" class="sidenav">
+                <li>
+                    <a href="#">Navbar Link</a>
+                </li>
+            </ul>
+            <a href="#" data-target="nav-mobile" class="sidenav-trigger">
+                <i class="material-icons">menu</i>
+            </a>
+        </div>
+    </nav>
+
+    <section>
+        <form action="prettyItinerary.html" method="GET">
+            <input type="hidden" id="itineraryKey" name="itineraryKey" />
+            <div id="itineraryContainer">
+
+            </div>
+            <button type="submit" id="submitWaypoints">Start Finding Attractions</button>
+        </form>
+    </section>
+
+
+    <!-- Footer -->
+    <footer class="page-footer orange">
+        <div class="footer-copyright">
+            <div class="container">
+                <a class="orange-text text-lighten-3">Copyright 2018 University of Minnesota Coding Boot Camp</a>
+            </div>
+        </div>
+    </footer>
+
+
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+        crossorigin="anonymous"></script>
+    <script src="https://www.gstatic.com/firebasejs/4.13.0/firebase.js"></script>
+    <script src="assets/javascript/firebaseDatabaseSetup.js"></script>
+    <script src="assets/javascript/chooseAttractions.js"></script>
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAu3dol7hruwWbLi5SkZ5T_iJS6ru89i3w&callback=initialize"></script>
+
 </body>
+
 </html>

@@ -37,7 +37,8 @@ $(document).ready(function () {
                     start: startingPoint,
                     startLatLng: "",
                     end: destination,
-                    endLatLng: ""
+                    endLatLng: "",
+                    waypoints: ""
                 });
 
                 // append itinerary key to the get action

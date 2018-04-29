@@ -13,17 +13,6 @@ let destinationLatLng = null;
 let waypointMarkers = [];
 let tripLocations = [];
 
-// http://www.jquerybyexample.net/2012/06/get-url-parameters-using-jquery.html
-function GetURLParameter(sParam) {
-    var sPageURL = window.location.search.substring(1);
-    var sURLVariables = sPageURL.split('&');
-    for (var i = 0; i < sURLVariables.length; i++) {
-        var sParameterName = sURLVariables[i].split('=');
-        if (sParameterName[0] == sParam) {
-            return sParameterName[1];
-        }
-    }
-}
 
 let firebaseItineraryKey = GetURLParameter('itineraryKey');
 
@@ -45,34 +34,46 @@ function initMap() {
             console.log(snapshot.val());
             let sv = snapshot.val();
             startingPointAddress = sv.start;
+            startingPointLatLng = sv.startLatLng;
             destinationAddress = sv.end;
+            destinationLatLng = sv.endLatLng;
 
-            // get the lat and lng for the starting point and destination
-            geocoder.geocode({ 'address': startingPointAddress }, function (results, status) {
-                if (status == 'OK') {
-                    startingPointLatLng = {
-                        lat: results[0].geometry.location.lat(),
-                        lng: results[0].geometry.location.lng()
-                    };
-                    console.log(results[0]);
-                }
-                else {
-                    alert('Geocode was not successful for the following reason: ' + status);
-                }
-            });
+            if (!startingPointLatLng) {
+                // get the lat and lng for the starting point and destination
+                geocoder.geocode({ 'address': startingPointAddress }, function (results, status) {
+                    if (status == 'OK') {
+                        startingPointLatLng = {
+                            lat: results[0].geometry.location.lat(),
+                            lng: results[0].geometry.location.lng()
+                        };
+                        database.ref(itineraryPath).child(firebaseItineraryKey).update({
+                            startLatLng: startingPointLatLng
+                        });
+                        console.log(results[0]);
+                    }
+                    else {
+                        alert('Geocode was not successful for the following reason: ' + status);
+                    }
+                });
+            }
 
-            geocoder.geocode({ 'address': destinationAddress }, function (results, status) {
-                if (status == 'OK') {
-                    destinationLatLng = {
-                        lat: results[0].geometry.location.lat(),
-                        lng: results[0].geometry.location.lng()
-                    };
-                    console.log(results[0]);
-                }
-                else {
-                    alert('Geocode was not successful for the following reason: ' + status);
-                }
-            });
+            if (!destinationLatLng) {
+                geocoder.geocode({ 'address': destinationAddress }, function (results, status) {
+                    if (status == 'OK') {
+                        destinationLatLng = {
+                            lat: results[0].geometry.location.lat(),
+                            lng: results[0].geometry.location.lng()
+                        };
+                        database.ref(itineraryPath).child(firebaseItineraryKey).update({
+                            endLatLng: destinationLatLng
+                        });
+                        console.log(results[0]);
+                    }
+                    else {
+                        alert('Geocode was not successful for the following reason: ' + status);
+                    }
+                });
+            }
 
             displayRoute();
             setUpCustomWaypointButtons();
@@ -154,11 +155,12 @@ function setUpCustomWaypointButtons() {
         if (startingPointLatLng && destinationLatLng) {
             clearInterval(intervalID);
 
-            let midpointLatLng = { lat: (startingPointLatLng.lat + destinationLatLng.lat) / 2, lng: (startingPointLatLng.lng + destinationLatLng.lng) / 2 };
+            $("#addWaypoint").on("click", function (e) {
+                e.preventDefault();
+                e.stopPropagation();
 
-            $("#addWaypoint").on("click", function () {
                 var marker = new google.maps.Marker({
-                    position: midpointLatLng,
+                    position: gMap.getCenter(),
                     map: gMap,
                     title: 'Drag to where you want a waypoint.',
                     draggable: true,
@@ -167,7 +169,10 @@ function setUpCustomWaypointButtons() {
                 waypointMarkers.push(marker);
             });
 
-            $("#removeWaypoint").on("click", function () {
+            $("#removeWaypoint").on("click", function (e) {
+                e.preventDefault();
+                e.stopPropagation();
+
                 if (waypointMarkers.length > 0) {
                     let markerToDelete = waypointMarkers.pop();
                     markerToDelete.setMap(null);
@@ -175,10 +180,11 @@ function setUpCustomWaypointButtons() {
                 }
             });
 
-            $("#submitWaypoints").on("click", function () {
+            $("#chooseWayPointsForm").on("submit", function (e) {
+                $("#itineraryKey").val(firebaseItineraryKey);
 
-                tripLocations.push({ address: startingPointAddress, latlng: startingPointLatLng });
                 for (let i = 0; i < waypointMarkers.length; i++) {
+
                     tripLocations.push({
                         address: "",
                         latlng: {
@@ -187,11 +193,23 @@ function setUpCustomWaypointButtons() {
                         }
                     });
                 }
-                tripLocations.push({ address: destinationAddress, latlng: destinationLatLng });
-                console.log(tripLocations);
+                // it will be easier if we put the starting location at the front of the
+                // waypoint array
+                tripLocations.unshift({ address: startingPointAddress,
+                    latlng: startingPointLatLng });
+                // it will also be easier if we put the ending destination at the end of the
+                // array    
+                tripLocations.push({ address: destinationAddress,
+                    latlng: destinationLatLng });
+                // update the database with all the locations
+                database.ref(itineraryPath).child(firebaseItineraryKey).update({
+                    waypoints: tripLocations
+                });
             });
 
-            $("#restart").on("click", function () {
+            $("#restart").on("click", function (e) {
+                e.preventDefault();
+                e.stopPropagation();
                 alert($(this).text());
             });
 
