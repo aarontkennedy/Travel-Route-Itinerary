@@ -1,9 +1,12 @@
+const attractionsLimit = 10;
 let geocoder = null;
 
 let firebaseItineraryKey = GetURLParameter('itinerarykey');
 
 let numberOfGeocodeCallsToWaitFor = 0;
 let dbSnapshot = null;
+
+let placesService = null;
 
 function initialize() {
     geocoder = new google.maps.Geocoder();
@@ -102,31 +105,50 @@ function addItineraryWaypoints() {
 
 function listenForWaypointInfoRequest() {
     // not displaying this map, just passing it in....
-    let pyrmont = new google.maps.LatLng(-33.8665433, 151.1956316);
-    let map = new google.maps.Map(document.getElementById('map'),
-        { center: pyrmont, zoom: 15 });
-    let service = new google.maps.places.PlacesService(map);;
+    //let pyrmont = new google.maps.LatLng(-33.8665433, 151.1956316);
+    //let map = new google.maps.Map(document.getElementById('map'),
+    //    { center: pyrmont, zoom: 15 });
+    placesService = new google.maps.places.PlacesService($("<div>").addClass("hideMe").get(0));
+    listenForRequestForMoreAttractionDetails();
 
     $("#itineraryContainer").on("click", "legend", function (event) {
-       
+        let waypoint = $(this).val();
+        let waypointElement = $(this);
         if ($(this).attr("data-loaded")) {
             $(this).parent().children().show();
-            debugger
         }
         else { // request information from google places
-            debugger
+            $(this).attr("data-loaded", "true");
+
             let request = {
-                location: pyrmont,
+                location: {
+                    lat: parseFloat(waypointElement.attr("data-lat")),
+                    lng: parseFloat(waypointElement.attr("data-lng"))
+                },
                 radius: '15000',
                 query: 'attractions'
             };
 
-            service.textSearch(request, function (results, status) {
+            placesService.textSearch(request, function (results, status) {
                 if (status == google.maps.places.PlacesServiceStatus.OK) {
-                    for (var i = 0; i < results.length; i++) {
+                    let attractionsContainer = $("<div>");
+                    attractionsContainer.addClass("attractions");
+
+                    for (var i = 0; i < attractionsLimit/*results.length*/; i++) {
                         var place = results[i];
-                        console.log(results[i]);
+                        console.log(place);
+
+                        let attraction = `<div class="attraction">
+                            <input type="checkbox" 
+                                   value="${place.name}"
+                                   id="${place.place_id}"><label for="${place.place_id}">${place.name}</label>
+                            <span data-place-id="${place.place_id}" class="attractionDetail">
+                            more    
+                            </span>
+                            </div>`;
+                        attractionsContainer.append($(attraction));
                     }
+                    waypointElement.parent().append(attractionsContainer);
                 }
             });
         }
@@ -134,3 +156,21 @@ function listenForWaypointInfoRequest() {
 
 }
 
+
+function listenForRequestForMoreAttractionDetails() {
+
+    $("#itineraryContainer").on("click", ".attractionDetail", function (event) {
+        alert($(this).attr("data-place-id"));
+
+        let request = { placeId: $(this).attr("data-place-id") };
+        debugger
+        placesService.getDetails(request, function (place, status) {
+            debugger
+            if (status == google.maps.places.PlacesServiceStatus.OK) {
+                console.log(place);          
+                debugger      
+            }
+        });
+
+    });
+}
