@@ -25,11 +25,3 @@ function GetURLParameter(sParam) {
         }
     }
 }
-
-var ref = firebase.database(itineraryPath).ref();
-
-ref.once("value").then(function (snap) {
-
- console.log('snap.val()', snap.val());
-
- });
