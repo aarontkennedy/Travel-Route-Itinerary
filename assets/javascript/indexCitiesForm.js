@@ -14,7 +14,7 @@ $(document).ready(function () {
 
     // we need to get the cities requested if the form is valid
     // then create/start the itinerary with the two cities.
-    // go to the itinerary page 
+    // go to the itinerary page
     let cityForm = $("#citySelection");
     function setUpListenForFormSubmission() {
 
@@ -50,7 +50,4 @@ $(document).ready(function () {
     }
     setUpListenForFormSubmission();
 
-
 });
-
-
