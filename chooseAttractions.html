@@ -37,11 +37,10 @@
     </nav>
 
     <section>
-        <form action="prettyItinerary.html" method="GET">
-            <input type="hidden" id="itineraryKey" name="itineraryKey" />
-            <div id="itineraryContainer">
+        <div id="map" style="display:none"></div>
+        <form id="itineraryContainer" action="prettyItinerary.html" method="GET">
 
-            </div>
+            <input type="hidden" id="itineraryKey" name="itinerarykey" />
             <button type="submit" id="submitWaypoints">Start Finding Attractions</button>
         </form>
     </section>
@@ -62,7 +61,7 @@
     <script src="https://www.gstatic.com/firebasejs/4.13.0/firebase.js"></script>
     <script src="assets/javascript/firebaseDatabaseSetup.js"></script>
     <script src="assets/javascript/chooseAttractions.js"></script>
-    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAu3dol7hruwWbLi5SkZ5T_iJS6ru89i3w&callback=initialize"></script>
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAu3dol7hruwWbLi5SkZ5T_iJS6ru89i3w&libraries=places&callback=initialize"></script>
 
 </body>
 

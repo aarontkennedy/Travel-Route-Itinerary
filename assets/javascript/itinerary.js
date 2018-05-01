@@ -4,7 +4,6 @@ let directionsDisplay = null;
 let directionsService = null;
 let distanceService = null;
 
-// assume I was passed a starting point and end point
 let startingPointAddress = "";
 let startingPointLatLng = null;
 let destinationAddress = "";
@@ -14,7 +13,15 @@ let waypointMarkers = [];
 let tripLocations = [];
 
 
-let firebaseItineraryKey = GetURLParameter('itineraryKey');
+let firebaseItineraryKey = GetURLParameter('itinerarykey');
+
+function returnToMainPageWithError(error) {
+    // if the domain changes, this changes?!?!?!?!
+    // i don't think you can replace with local files
+    let url = 'https://tarose412.github.io/Travel-Route-Itinerary/index.html';
+    error = encodeURIComponent(error);
+    window.location.replace(`${url}?error=${error}`)
+}
 
 function initMap() {
     geocoder = new google.maps.Geocoder();
@@ -28,7 +35,7 @@ function initMap() {
     });
 
     // we should have an itinerary key and we can pull the city data
-    // from firebase else epic fail
+    // from firebase else epic fail and return to index.html
     if (firebaseItineraryKey) {
         database.ref(itineraryPath).child(firebaseItineraryKey).once('value').then(function (snapshot) {
             console.log(snapshot.val());
@@ -52,7 +59,9 @@ function initMap() {
                         console.log(results[0]);
                     }
                     else {
-                        alert('Geocode was not successful for the following reason: ' + status);
+                        console.log('Geocode was not successful for the following reason: ' + status);
+                        // return to original page
+                        returnToMainPageWithError("BadAddress");
                     }
                 });
             }
@@ -70,7 +79,9 @@ function initMap() {
                         console.log(results[0]);
                     }
                     else {
-                        alert('Geocode was not successful for the following reason: ' + status);
+                        console.log('Geocode was not successful for the following reason: ' + status);
+                        // return to original page
+                        returnToMainPageWithError("BadAddress");
                     }
                 });
             }
@@ -81,8 +92,8 @@ function initMap() {
 
     }
     else {
-        alert("epic fail");
         // return to original page
+        returnToMainPageWithError("NoKey");
     }
 
 }  // called by the google maps api callback
@@ -91,6 +102,7 @@ function initMap() {
 
 function displayRoute() {
     // poll and make sure we have the lat/lng for our two endpoints
+    // add a timeout?
     let intervalID = setInterval(function () {
         if (startingPointLatLng && destinationLatLng) {
             clearInterval(intervalID);
@@ -114,6 +126,25 @@ function displayRoute() {
                     // Display the route on the map.
                     directionsDisplay.setDirections(response);
                 }
+                else {
+                    // just display the two markers of start and end
+                    let startMarker = new google.maps.Marker({
+                        position: startingPointLatLng,
+                        map: gMap,
+                        title: startingPointAddress,
+                        label: "Start"
+                    });
+                    let endMarker = new google.maps.Marker({
+                        position: destinationLatLng,
+                        map: gMap,
+                        title: destinationAddress,
+                        label: "Destination"
+                    });
+                    let bounds = new google.maps.LatLngBounds();
+                    bounds.extend(startMarker.getPosition());
+                    bounds.extend(endMarker.getPosition());
+                    gMap.fitBounds(bounds);
+                }
             });
 
             // how far is this trip?
@@ -132,17 +163,23 @@ function displayRoute() {
                 }, callback);
 
             function callback(response, status) {
-                // See Parsing the Results for the basics of a callback function.
-                console.log(response.rows[0].elements[0]);
-                let miles = response.rows[0].elements[0].distance.text;
-                let duration = response.rows[0].elements[0].duration.text;
-                $("#tripInfo").html(`
-                <h3>Your Trip</h3>
-                <div>Start: ${startingPointAddress}</div>
-                <div>Destination: ${destinationAddress}</div>
-                <div>Miles: ${miles}</div>
-                <div>Drive Time: ${duration}</div>
-                `);
+                
+                if (status == 'OK' && response.rows[0].elements[0].status != "ZERO_RESULTS") {
+                    // See Parsing the Results for the basics of a callback function.
+                    console.log(response.rows[0].elements[0]);
+                    let miles = response.rows[0].elements[0].distance.text;
+                    let duration = response.rows[0].elements[0].duration.text;
+                    $("#tripInfo").html(`
+                        <h3>Your Trip</h3>
+                        <div>Start: ${startingPointAddress}</div>
+                        <div>Destination: ${destinationAddress}</div>
+                        <div>Miles: ${miles}</div>
+                        <div>Drive Time: ${duration}</div>
+                        `);
+                }
+                else {
+                    console.log("No duration info for this trip.");
+                }
             }
 
         }
@@ -195,12 +232,16 @@ function setUpCustomWaypointButtons() {
                 }
                 // it will be easier if we put the starting location at the front of the
                 // waypoint array
-                tripLocations.unshift({ address: startingPointAddress,
-                    latlng: startingPointLatLng });
+                tripLocations.unshift({
+                    address: startingPointAddress,
+                    latlng: startingPointLatLng
+                });
                 // it will also be easier if we put the ending destination at the end of the
                 // array    
-                tripLocations.push({ address: destinationAddress,
-                    latlng: destinationLatLng });
+                tripLocations.push({
+                    address: destinationAddress,
+                    latlng: destinationLatLng
+                });
                 // update the database with all the locations
                 database.ref(itineraryPath).child(firebaseItineraryKey).update({
                     waypoints: tripLocations

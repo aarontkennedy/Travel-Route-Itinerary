@@ -1,5 +1,7 @@
 $(document).ready(function () {
 
+    // this code obviously initializes the auto complete for the address input
+    // it is from a jquery library i found
     function initializeAddressAutocomplete() {
         $(".geocomplete").geocomplete();
         /*
@@ -30,7 +32,7 @@ $(document).ready(function () {
                 // make a key for the itinerary
                 let itineraryKey = database.ref(itineraryPath).push().key;
 
-                // create your user
+                // create your user's itinerary
                 database.ref(itineraryPath).child(itineraryKey).update({
                     key: itineraryKey,
                     owner: "",

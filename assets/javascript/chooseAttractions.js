@@ -1,6 +1,6 @@
 let geocoder = null;
 
-let firebaseItineraryKey = GetURLParameter('itineraryKey');
+let firebaseItineraryKey = GetURLParameter('itinerarykey');
 
 let numberOfGeocodeCallsToWaitFor = 0;
 let dbSnapshot = null;
@@ -43,14 +43,14 @@ function initialize() {
                                 });
                             }
                             else {
-                                alert('Geocode was not successful for the following reason: ' + status);
+                                console.log('Geocode was not successful for the following reason: ' + status);
                             }
 
                         });
                 }
             }
 
-            paintPageWithItineraryInformation();
+            addItineraryWaypoints();
         });
     }
     else {
@@ -66,15 +66,20 @@ function initialize() {
 // make space for printing information about the attractions
 
 let itineraryContainer = $("#itineraryContainer");
-function waypointHTML(address) {
-    return $(`<p>${address}</p>`);
-}
-function addWaypoint(node) {
-    itineraryContainer.append(node);
+function addWaypoint(address, latlng, ) {
+    let node = $(`<fieldset>
+        <legend data-address="${address}" 
+                data-lat="${latlng.lat}" 
+                data-lng="${latlng.lng}" 
+                data-loaded="">
+            ${address}
+        </legend>
+        </fieldset>`);
+    itineraryContainer.prepend(node);
 }
 
 
-function paintPageWithItineraryInformation() {
+function addItineraryWaypoints() {
 
     // DO NOT CHANGE The next five lines of code
     let intervalID = setInterval(function () {
@@ -84,27 +89,48 @@ function paintPageWithItineraryInformation() {
 
             for (let i = 0; i < dbSnapshot.waypoints.length; i++) {
 
-                // Philip, you may want to change this and add to this
                 if (dbSnapshot.waypoints[i].address) {
-                    addWaypoint(waypointHTML(dbSnapshot.waypoints[i].address));
+                    addWaypoint(dbSnapshot.waypoints[i].address,
+                        dbSnapshot.waypoints[i].latlng);
                 }
-
-
-
-
-
-
-
-
-
-
             }
-
-
-
-
-
+            listenForWaypointInfoRequest();
         }
-    }
-        , 250);
+    }, 250);
 }
+
+
+function listenForWaypointInfoRequest() {
+    // not displaying this map, just passing it in....
+    let pyrmont = new google.maps.LatLng(-33.8665433, 151.1956316);
+    let map = new google.maps.Map(document.getElementById('map'),
+        { center: pyrmont, zoom: 15 });
+    let service = new google.maps.places.PlacesService(map);;
+
+    $("#itineraryContainer").on("click", "legend", function (event) {
+       
+        if ($(this).attr("data-loaded")) {
+            $(this).parent().children().show();
+            debugger
+        }
+        else { // request information from google places
+            debugger
+            let request = {
+                location: pyrmont,
+                radius: '15000',
+                query: 'attractions'
+            };
+
+            service.textSearch(request, function (results, status) {
+                if (status == google.maps.places.PlacesServiceStatus.OK) {
+                    for (var i = 0; i < results.length; i++) {
+                        var place = results[i];
+                        console.log(results[i]);
+                    }
+                }
+            });
+        }
+    });
+
+}
+
