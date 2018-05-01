@@ -160,15 +160,22 @@ function listenForWaypointInfoRequest() {
 function listenForRequestForMoreAttractionDetails() {
 
     $("#itineraryContainer").on("click", ".attractionDetail", function (event) {
-        alert($(this).attr("data-place-id"));
+        //alert($(this).attr("data-place-id"));
+        let element = $(this);
 
         let request = { placeId: $(this).attr("data-place-id") };
-        debugger
+        
         placesService.getDetails(request, function (place, status) {
-            debugger
+            
             if (status == google.maps.places.PlacesServiceStatus.OK) {
-                console.log(place);          
-                debugger      
+                console.log(place);
+                let html = `
+                <div>${place.formatted_address}</div>
+                <div>${place.formatted_phone_number}</div>
+                <div><a href="${place.website}" target="_blank">${place.website}</a></div>
+                `;  
+                element.html($(html));
+                //debugger      
             }
         });
 
