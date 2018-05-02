@@ -30,4 +30,17 @@ footer div {
   padding: 1em;
 }
 
+.banner {
+  background-color: lightgray;
+  border-radius: 4px;
+  width:80%;
+  margin: 1em auto;
+  padding: 1em;
+}
+
+#citySelection {
+  text-align:center;
+  margin: 1em auto;
+  padding: 1em;
+}
 
