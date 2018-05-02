@@ -8,6 +8,15 @@ let dbSnapshot = null;
 
 let placesService = null;
 
+function returnToMainPageWithError(error) {
+    // if the domain changes, this changes?!?!?!?!
+    // i don't think you can replace with local files
+    let url = 'https://tarose412.github.io/Travel-Route-Itinerary/index.html';
+    error = encodeURIComponent(error);
+    window.location.replace(`${url}?error=${error}`)
+}
+
+
 function initialize() {
     geocoder = new google.maps.Geocoder();
 
@@ -58,17 +67,15 @@ function initialize() {
         });
     }
     else {
-        alert("epic fail");
-        // return to original page
+        console.log("Return to original page, no key found.");
+        returnToMainPageWithError("noKey");
     }
 
 } // called by google maps api
 
 
-
-// Philip, you are probably going to want to change the following two functions to 
-// make space for printing information about the attractions
-
+// the following two functions run through the waypoints returned 
+// from firebase and create them as fields in the form.
 let itineraryContainer = $("#itineraryContainer");
 function addWaypoint(address, latlng, ) {
     let node = $(`<fieldset>
@@ -104,11 +111,9 @@ function addItineraryWaypoints() {
 }
 
 
+
 function listenForWaypointInfoRequest() {
-    // not displaying this map, just passing it in....
-    //let pyrmont = new google.maps.LatLng(-33.8665433, 151.1956316);
-    //let map = new google.maps.Map(document.getElementById('map'),
-    //    { center: pyrmont, zoom: 15 });
+
     placesService = new google.maps.places.PlacesService($("<div>").addClass("hideMe").get(0));
     listenForRequestForMoreAttractionDetails();
 
@@ -156,14 +161,12 @@ function listenForWaypointInfoRequest() {
             });
         }
     });
-
 }
 
 
 function listenForRequestForMoreAttractionDetails() {
 
     $("#itineraryContainer").on("click", ".attractionDetail", function (event) {
-        //alert($(this).attr("data-place-id"));
         let element = $(this);
 
         let request = { placeId: $(this).attr("data-place-id") };

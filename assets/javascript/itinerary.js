@@ -251,7 +251,8 @@ function setUpCustomWaypointButtons() {
             $("#restart").on("click", function (e) {
                 e.preventDefault();
                 e.stopPropagation();
-                alert($(this).text());
+                // return to original page
+                returnToMainPageWithError("restart");
             });
 
 
