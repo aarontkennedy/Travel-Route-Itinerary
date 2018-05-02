@@ -19,7 +19,8 @@ function initialize() {
             console.log(snapshot.val());
             dbSnapshot = snapshot.val();
 
-            for (let i = 0; i < dbSnapshot.waypoints.length; i++) {
+            for (let i = 0; i <  dbSnapshot.waypoints.length; i++) {
+                
                 if (!dbSnapshot.waypoints[i].address && dbSnapshot.waypoints[i].latlng) {
 
                     numberOfGeocodeCallsToWaitFor++;
@@ -90,7 +91,7 @@ function addItineraryWaypoints() {
         if (numberOfGeocodeCallsToWaitFor < 1 && dbSnapshot) {
             clearInterval(intervalID);
 
-            for (let i = 0; i < dbSnapshot.waypoints.length; i++) {
+            for (let i = dbSnapshot.waypoints.length-1; i >= 0; i--) {
 
                 if (dbSnapshot.waypoints[i].address) {
                     addWaypoint(dbSnapshot.waypoints[i].address,
@@ -139,9 +140,11 @@ function listenForWaypointInfoRequest() {
                         console.log(place);
 
                         let attraction = `<div class="attraction">
-                            <input type="checkbox" 
+                            <label for="${place.place_id}">
+                                <input type="checkbox"
                                    value="${place.name}"
-                                   id="${place.place_id}"><label for="${place.place_id}">${place.name}</label>
+                                   id="${place.place_id}">
+                            ${place.name}</label>
                             <span data-place-id="${place.place_id}" class="attractionDetail">
                             more    
                             </span>
@@ -164,16 +167,18 @@ function listenForRequestForMoreAttractionDetails() {
         let element = $(this);
 
         let request = { placeId: $(this).attr("data-place-id") };
-        
+
         placesService.getDetails(request, function (place, status) {
-            
+
             if (status == google.maps.places.PlacesServiceStatus.OK) {
                 console.log(place);
-                let html = `
-                <div>${place.formatted_address}</div>
-                <div>${place.formatted_phone_number}</div>
-                <div><a href="${place.website}" target="_blank">${place.website}</a></div>
-                `;  
+                let html = `<div>${place.formatted_address}</div>`;
+                if (place.formatted_phone_number) {
+                    html += `<div>${place.formatted_phone_number}</div>`;
+                }
+                if (place.website) {
+                    html += `<div><a href="${place.website}" target="_blank">${place.website}</a></div>`;
+                }
                 element.html($(html));
                 //debugger      
             }
