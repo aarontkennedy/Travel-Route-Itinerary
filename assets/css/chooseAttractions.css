@@ -1,0 +1,33 @@
+.attraction label, .attraction input, .attraction span {
+    display: inline;
+  }
+  
+  .attraction label {
+    font-weight:bolder;
+  }
+  
+  legend {
+    font-weight: bold;
+    cursor: pointer;
+  }
+  
+  .attraction {
+    margin: 0 0 1em 0;
+  }
+  
+  .attraction span {
+    margin: 0 0 0 .5em;
+  }
+  
+  .attraction span div {
+    margin: 0 0 0 2em;
+  }
+  
+  form {
+    padding: 1em;
+  }
+
+  img.poweredByGoogle {
+      float:right;
+      margin:.5em;
+  }

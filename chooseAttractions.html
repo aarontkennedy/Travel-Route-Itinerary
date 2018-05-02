@@ -8,43 +8,44 @@
     <title>Road Rover: Choose Attractions</title>
 
     <!-- CSS -->
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <link href="assets/css/materialize.css" type="text/css" rel="stylesheet" media="screen,projection" />
-    <link href="assets/css/style.css" type="text/css" rel="stylesheet" media="screen,projection" />
-
+    <link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/pure-min.css" integrity="sha384-nn4HPE8lTHyVtfCBi5yW9d20FjT8BJwUXyWZT9InLYax14RDjBj46LmSztkmNP9w"
+        crossorigin="anonymous">
+    <link href="assets/css/style.css" type="text/css" rel="stylesheet" />
+    <link href="assets/css/chooseAttractions.css" type="text/css" rel="stylesheet" />
 
 </head>
 
 <body>
 
-    <nav class="grey" role="navigation">
-        <div class="nav-wrapper container">
-            <a href="#" class="left brand-logo">Road Rover</a>
-            <img style="float:right;" src="assets/images/powered_by_google_on_non_white.png">
+    <nav class="pure-g">
+        <div class="pure-u-1-2">
+            <h1>Road Rover</h1>
+        </div>
+        <div class="pure-u-1-2">
+            <img class="poweredByGoogle" src="assets/images/powered_by_google_on_non_white.png">
         </div>
     </nav>
 
-    <section>
-        <form id="itineraryContainer" action="prettyItinerary.html" method="GET">
+    <section class="pure-g">
+        <form class="pure-u-1 pure-form pure-form-stacked" id="itineraryContainer" action="prettyItinerary.html" method="GET">
 
             <input type="hidden" id="itineraryKey" name="itinerarykey" />
-            <button type="submit" id="submitWaypoints">Start Finding Attractions</button>
+            <button type="submit" class="pure-button pure-button-primary" id="submitWaypoints">Start Finding Attractions</button>
         </form>
     </section>
 
 
     <!-- Footer -->
-    <footer class="page-footer orange">
-        <div class="footer-copyright">
-            <div class="container">
-                <a class="orange-text text-lighten-3">Copyright 2018 University of Minnesota Coding Boot Camp</a>
-            </div>
+    <footer class="pure-g">
+        <div class="pure-u-1">
+            <a class="orange-text text-lighten-3">Copyright 2018 University of Minnesota Coding Boot Camp</a>
         </div>
     </footer>
 
 
     <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
         crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
     <script src="https://www.gstatic.com/firebasejs/4.13.0/firebase.js"></script>
     <script src="assets/javascript/firebaseDatabaseSetup.js"></script>
     <script src="assets/javascript/chooseAttractions.js"></script>

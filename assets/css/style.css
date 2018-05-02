@@ -1,14 +1,33 @@
-/* Custom Stylesheet */
-/**
- * Use this file to override Materialize files so you can update
- * the core Materialize files in the future
- *
- * Made By MaterializeCSS.com
- */
+html, body {
+  height: 100%;
+}
+body {
+  display: flex;
+  flex-direction: column;
+}
 
-.icon-block {
-  padding: 0 15px;
+nav {
+  flex-shrink: 0;
+  background-color: lightskyblue;
+  color: white;
 }
-.icon-block .material-icons {
-	font-size: inherit;
+
+nav h1 {
+  padding-left: 1em;
 }
+
+section {
+  flex: 1 0 auto;
+}
+
+footer {
+  flex-shrink: 0;
+  background-color: lightskyblue;
+  color: white;
+}
+footer div {
+  text-align:center;
+  padding: 1em;
+}
+
+

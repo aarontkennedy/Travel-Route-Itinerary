@@ -146,7 +146,7 @@ function listenForWaypointInfoRequest() {
 
                         let attraction = `<div class="attraction">
                             <label for="${place.place_id}">
-                                <input type="checkbox"
+                                <input type="checkbox" 
                                    value="${place.name}"
                                    id="${place.place_id}">
                             ${place.name}</label>
