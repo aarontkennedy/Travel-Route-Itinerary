@@ -170,11 +170,10 @@ function displayRoute() {
                     let miles = response.rows[0].elements[0].distance.text;
                     let duration = response.rows[0].elements[0].duration.text;
                     $("#tripInfo").html(`
-                        <h3>Your Trip</h3>
-                        <div>Start: ${startingPointAddress}</div>
-                        <div>Destination: ${destinationAddress}</div>
-                        <div>Miles: ${miles}</div>
-                        <div>Drive Time: ${duration}</div>
+                        <span>Start: ${startingPointAddress}</span>
+                        <span>Destination: ${destinationAddress}</span>
+                        <span>Miles: ${miles}</span>
+                        <span>Drive Time: ${duration}</span>
                         `);
                 }
                 else {
