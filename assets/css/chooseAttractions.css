@@ -6,7 +6,7 @@
     font-weight:bolder;
   }
   
-  pure.form legend {
+  legend {
     font-weight: bold;
     cursor: pointer;
     color: white;
@@ -14,7 +14,7 @@
 
   }
 
-  #attractionDetail {
+  attractionDetail span {
     text-shadow: 1px 1px white;
     text-transform: uppercase;
   }
@@ -36,12 +36,12 @@
   }
 
   footer {
-    margin-top: auto;
+    position: absolute;
+    bottom: 0;
     flex-shrink: 0;
     background-color: black;
     font-family: 'Nunito', sans-serif;
     text-align:center;
-    font-family: 'VT323', monospace;
     padding: 1em;
     font-size: 14px;
     color: white;
