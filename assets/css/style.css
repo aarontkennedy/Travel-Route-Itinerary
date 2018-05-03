@@ -26,6 +26,10 @@ nav h1 {
   white-space: nowrap;
 }
 
+section {
+  flex: 1 0 auto;
+}
+
 h2 {
   text-align: center;
   font-family: 'Nunito', sans-serif;
@@ -130,5 +134,6 @@ img.poweredByGoogle {
   float:right;
   margin:.5em;
 }
+
 
 

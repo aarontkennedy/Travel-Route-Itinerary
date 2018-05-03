@@ -40,8 +40,6 @@ body {
   }
 
   footer {
-    position: absolute;
-    bottom: 0;
     flex-shrink: 0;
     width: 100%;
     background-color: black;
@@ -65,6 +63,10 @@ body {
     flex-direction: column;
   }
   
+  section {
+    flex: 1 0 auto;
+  }
+
   nav {
     background-color: black;
     color: orange;
@@ -142,3 +144,8 @@ body {
     font-family: 'Quicksand', sans-serif;
     text-shadow: 2px 2px black;
   }
+
+
+.moreInfo {
+  cursor: pointer;
+}

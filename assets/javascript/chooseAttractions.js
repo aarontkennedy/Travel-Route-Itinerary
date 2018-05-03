@@ -28,8 +28,8 @@ function initialize() {
             console.log(snapshot.val());
             dbSnapshot = snapshot.val();
 
-            for (let i = 0; i <  dbSnapshot.waypoints.length; i++) {
-                
+            for (let i = 0; i < dbSnapshot.waypoints.length; i++) {
+
                 if (!dbSnapshot.waypoints[i].address && dbSnapshot.waypoints[i].latlng) {
 
                     numberOfGeocodeCallsToWaitFor++;
@@ -98,7 +98,7 @@ function addItineraryWaypoints() {
         if (numberOfGeocodeCallsToWaitFor < 1 && dbSnapshot) {
             clearInterval(intervalID);
 
-            for (let i = dbSnapshot.waypoints.length-1; i >= 0; i--) {
+            for (let i = dbSnapshot.waypoints.length - 1; i >= 0; i--) {
 
                 if (dbSnapshot.waypoints[i].address) {
                     addWaypoint(dbSnapshot.waypoints[i].address,
@@ -137,8 +137,8 @@ function listenForWaypointInfoRequest() {
 
             placesService.textSearch(request, function (results, status) {
                 if (status == google.maps.places.PlacesServiceStatus.OK) {
-                    let attractionsContainer = $("<div>");
-                    attractionsContainer.addClass("attractions");
+                    //let attractionsContainer = $("<div>");
+                    //attractionsContainer.addClass("attractions");
 
                     for (var i = 0; i < attractionsLimit/*results.length*/; i++) {
                         var place = results[i];
@@ -150,13 +150,12 @@ function listenForWaypointInfoRequest() {
                                    value="${place.name}"
                                    id="${place.place_id}">
                             ${place.name}</label>
-                            <span data-place-id="${place.place_id}" class="attractionDetail">
+                            <span data-place-id="${place.place_id}" class="attractionDetail moreInfo">
                             more    
                             </span>
                             </div>`;
-                        attractionsContainer.append($(attraction));
+                            waypointElement.parent().append($(attraction));
                     }
-                    waypointElement.parent().append(attractionsContainer);
                 }
             });
         }
@@ -172,9 +171,17 @@ function listenForRequestForMoreAttractionDetails() {
         let request = { placeId: $(this).attr("data-place-id") };
 
         placesService.getDetails(request, function (place, status) {
-
+            element.removeClass("moreInfo");
             if (status == google.maps.places.PlacesServiceStatus.OK) {
                 console.log(place);
+
+                // store the data somewhere accessible as a data-attr 
+                element.attr("data-addr", place.formatted_address); 
+                element.attr("data-phone", place.formatted_phone_number);
+                element.attr("data-website", place.website);
+                element.attr("data-map-url", place.url);
+
+                // create displayed html
                 let html = `<div>${place.formatted_address}</div>`;
                 if (place.formatted_phone_number) {
                     html += `<div>${place.formatted_phone_number}</div>`;
@@ -182,6 +189,8 @@ function listenForRequestForMoreAttractionDetails() {
                 if (place.website) {
                     html += `<div><a href="${place.website}" target="_blank">${place.website}</a></div>`;
                 }
+                html += `<div><a href="${place.url}" target="_blank">See in Google Maps</a></div>`;
+
                 element.html($(html));
                 //debugger      
             }
@@ -189,3 +198,60 @@ function listenForRequestForMoreAttractionDetails() {
 
     });
 }
+
+
+// listen for form submit on itineraryContainer
+function listenForFormSubmit() {
+    
+    $("#itineraryContainer").on("submit", function (event) {
+        $("#itineraryKey").val(firebaseItineraryKey);
+        let arrayOfWaypointAttractions = [];
+
+        // cruise through each waypoint on the page
+        waypointElements = $("#itineraryContainer fieldset");
+        console.log(waypointElements);
+        
+        for (let i = 0; i < waypointElements.length; i++) {
+            let legendChild = $(waypointElements[i]).children("legend");
+            console.log(legendChild);
+            let singleWaypointAttractions = [];
+            // cruise through each checked attraction in the waypoint
+            let waypointsAttractions = legendChild.parent().children(".attraction");
+            for (let j = 0; j < waypointsAttractions.length; j++) {
+                console.log(waypointsAttractions[j]);
+                let checkbox = $(waypointsAttractions[j]).find("input");
+                let detailChild = $(waypointsAttractions[j]).children(".attractionDetail");
+                console.log($(checkbox));
+                console.log(detailChild);
+                debugger 
+                let result = $(checkbox).checked;
+                if (checkbox.checked) {
+                    debugger
+                    singleWaypointAttractions.push({
+                        placeID: "",
+                        address: "",
+                        website: "",
+                        googleMaps: ""
+                    });
+                }
+                debugger
+/*  
+        let request = { placeId: $(this).attr("data-place-id") };
+                element.attr("data-addr", place.formatted_address); 
+                element.attr("data-phone", place.formatted_phone_number);
+                element.attr("data-website", place.website);
+                element.attr("data-map-url", place.url);
+*/
+
+
+
+
+            }
+        }
+
+
+        // store in firebase
+
+    });
+} 
+listenForFormSubmit();
