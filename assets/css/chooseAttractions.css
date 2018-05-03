@@ -11,10 +11,10 @@ body {
   }
   
   legend {
-    font-weight: bold;
+    font-weight: bolder;
     cursor: pointer;
-    color: rgb(99, 15, 148);
-    text-shadow: 3px 3px white;
+    color: white;
+    text-decoration: double dotted;
 
   }
 
