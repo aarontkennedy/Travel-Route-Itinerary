@@ -93,6 +93,12 @@ label {
   text-align:center;
 }
 
+#tripInfo {
+  color: white;
+  font-weight: bold;
+  font-family: 'Quicksand', sans-serif;
+}
+
 .button-success,
 .button-error,
 .button-warning,
