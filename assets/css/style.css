@@ -97,7 +97,7 @@ label {
   color: white;
   font-weight: bold;
   font-family: 'Quicksand', sans-serif;
-  text-shadow: 1px 1px black;
+  text-shadow: 2px 2px black;
 }
 
 .button-primary,
@@ -125,6 +125,11 @@ label {
 
 .button-secondary {
     background: rgb(66, 184, 221); /* this is a light blue */
+}
+
+img.poweredByGoogle {
+  float:right;
+  margin:.5em;
 }
 
 

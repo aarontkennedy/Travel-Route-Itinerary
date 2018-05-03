@@ -10,8 +10,8 @@
     font-weight: bold;
     cursor: pointer;
     color: white;
-    text-shadow: 3px 3px orange;
-    
+    text-shadow: 3px 3px white;
+
   }
   
   .attraction {
@@ -28,6 +28,18 @@
   
   form {
     padding: 1em;
+  }
+
+  footer {
+    margin-top: auto;
+    flex-shrink: 0;
+    background-color: black;
+    font-family: 'Nunito', sans-serif;
+    text-align:center;
+    font-family: 'VT323', monospace;
+    padding: 1em;
+    font-size: 14px;
+    color: white;
   }
 
   img.poweredByGoogle {
