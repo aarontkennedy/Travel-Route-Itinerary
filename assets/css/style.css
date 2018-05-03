@@ -97,18 +97,21 @@ label {
   color: white;
   font-weight: bold;
   font-family: 'Quicksand', sans-serif;
+  text-shadow: 2px 2px orange;
 }
 
-.button-success,
+.button-primary,
 .button-error,
 .button-warning,
 .button-secondary {
     color: white;
     border-radius: 4px;
-    text-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
+    font-family: 'Quicksand', sans-serif;
+    font-size: 16px;
+    font-weight: bolder;
 }
 
-.button-success {
+.button-primary {
     background: rgb(28, 184, 65); /* this is a green */
 }
 
