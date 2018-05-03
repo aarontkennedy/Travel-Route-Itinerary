@@ -35,11 +35,11 @@
     </section>
 
 
-    <form class="pure-form pure-form-stacked" id="citySelection" action="itinerary.html" method="GET">
+    <form id="citySelection" action="itinerary.html" method="GET" class="pure-form pure-form-stacked">
+    <input type="hidden" id="itineraryKey" name="itineraryKey" />
         <div class="pure-form pure-u-1">
             <fieldset>
 
-                <input type="hidden" id="itineraryKey" name="itineraryKey" />
                 <label for="startingLocation">Starting Location:</label>
                 <input class="geocomplete" id="startingLocation" type="text" placeholder="">
 
