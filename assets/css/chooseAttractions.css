@@ -6,12 +6,17 @@
     font-weight:bolder;
   }
   
-  legend {
+  pure.form legend {
     font-weight: bold;
     cursor: pointer;
     color: white;
     text-shadow: 3px 3px white;
 
+  }
+
+  #attractionDetail {
+    text-shadow: 1px 1px white;
+    text-transform: uppercase;
   }
   
   .attraction {
