@@ -1,3 +1,7 @@
+body {
+  background-image: url("../images/roadRoverBackground.jpg")
+}
+
 .attraction label, .attraction input, .attraction span {
     display: inline;
   }
@@ -60,10 +64,6 @@
     flex-direction: column;
   }
   
-  body{
-    background-image: url("../images/roadRoverBackground.jpg")
-  }
-  
   nav {
     background-color: black;
     color: orange;
@@ -84,17 +84,6 @@
     text-align: center;
     font-family: 'Nunito', sans-serif;
     font-size: 50px;
-  }
-  
-  footer {
-    margin-top: auto;
-    flex-shrink: 0;
-    background-color: black;
-    font-family: 'Nunito', sans-serif;
-    text-align:center;
-    padding: 1em;
-    font-size: 14px;
-    color: white;
   }
   
   .banner {
