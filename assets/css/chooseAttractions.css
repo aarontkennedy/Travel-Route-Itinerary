@@ -13,7 +13,7 @@ body {
   legend {
     font-weight: bold;
     cursor: pointer;
-    color: white;
+    color: rgb(99, 15, 148);
     text-shadow: 3px 3px white;
 
   }
@@ -43,8 +43,9 @@ body {
     position: absolute;
     bottom: 0;
     flex-shrink: 0;
+    width: 100%;
     background-color: black;
-    font-family: 'Nunito', sans-serif;
+    font-family: 'VT323', monospace;
     text-align:center;
     padding: 1em;
     font-size: 14px;
