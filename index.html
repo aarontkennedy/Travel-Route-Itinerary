@@ -9,8 +9,10 @@
 
     <meta name="google-signin-scope" content="profile email">
     <meta name="google-signin-client_id" content="904916758198-0fd2b7ldt50dagv2ks4kk52j2dp99ga7.apps.googleusercontent.com">
-    <!-- For Google Sign-In Button -->
-    <script src="https://apis.google.com/js/platform.js" async defer></script>
+    <link href="https://fonts.googleapis.com/css?family=Cabin|Delius+Unicase:700|Inconsolata|Nunito|Nunito+Sans|Pacifico|Quicksand|Rubik|VT323"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.11/css/all.css" integrity="sha384-p2jx59pefphTFIpeqCcISO9MdVfIm4pNnsL08A6v5vaQc4owkQqxMV8kg4Yvhaw/"
+        crossorigin="anonymous">
 
     <!-- CSS -->
     <link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/pure-min.css" integrity="sha384-nn4HPE8lTHyVtfCBi5yW9d20FjT8BJwUXyWZT9InLYax14RDjBj46LmSztkmNP9w"
@@ -28,22 +30,33 @@
 
     <section class="pure-g">
         <div class="pure-u-1 banner">
-            <h1>Road Rover</h1>
-            <h5>Modern travel utility for road trip planning</h5>
+            <h2>Modern travel utility for road trip planning</h2>
         </div>
-
-        <form id="citySelection" action="itinerary.html" method="GET" class="pure-u-1 pure-form">
-            <input type="hidden" id="itineraryKey" name="itinerarykey" />
-            <input class="geocomplete" id="startingLocation" type="text" placeholder="Starting Location" required/>
-            <input class="geocomplete" id="finalDestination" type="text" placeholder="Destination" required/>
-            <button class="pure-button pure-button-primary" type="submit">Start Planning Your Trip!</button>
-        </form>
     </section>
 
-    <!-- Footer -->
-    <footer class="pure-g">
+
+    <form class="pure-form pure-form-stacked" id="citySelection" action="itinerary.html" method="GET">
+        <div class="pure-form pure-u-1">
+            <fieldset>
+
+                <input type="hidden" id="itineraryKey" name="itineraryKey" />
+                <label for="startingLocation">Starting Location:</label>
+                <input class="geocomplete" id="startingLocation" type="text" placeholder="">
+
+                <label for="Destination">Destination:</label>
+                <input class="geocomplete" id="finalDestination" type="text" placeholder="">
+                <br>
+                <button type="submit" class="pure-button button-sendCities" id="planTrip">
+                    <i class="fas fa-car"></i>
+                    Start planning!
+                </button>
+            </fieldset>
+        </div>
+    </form>
+
+    <footer class="footer">
         <div class="pure-u-1">
-            <a class="orange-text text-lighten-3">Copyright 2018 University of Minnesota Coding Boot Camp</a>
+            <a id="copyright">Copyright 2018 University of Minnesota Coding Boot Camp</a>
         </div>
     </footer>
 
