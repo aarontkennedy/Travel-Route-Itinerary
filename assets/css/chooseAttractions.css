@@ -14,7 +14,7 @@
 
   }
 
-  attractionDetail span {
+  .attractionDetail span {
     text-shadow: 1px 1px white;
     text-transform: uppercase;
   }
