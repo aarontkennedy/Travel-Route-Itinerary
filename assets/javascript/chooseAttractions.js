@@ -218,36 +218,32 @@ function listenForFormSubmit() {
             // cruise through each checked attraction in the waypoint
             let waypointsAttractions = legendChild.parent().children(".attraction");
             for (let j = 0; j < waypointsAttractions.length; j++) {
+                debugger
                 console.log(waypointsAttractions[j]);
-                let checkbox = $(waypointsAttractions[j]).find("input");
-                let detailChild = $(waypointsAttractions[j]).children(".attractionDetail");
-                console.log($(checkbox));
+                let checkbox = $(waypointsAttractions[j]).find("input")[0];
+                let detailChild = $($(waypointsAttractions[j]).children(".attractionDetail")[0]);
+                
+                console.log(checkbox);
                 console.log(detailChild);
-                debugger 
-                let result = $(checkbox).checked;
                 if (checkbox.checked) {
-                    debugger
+                    console.log(detailChild.attr("data-place-id"));
+                    console.log(detailChild.attr("data-addr"));
+                    console.log(detailChild.attr("data-phone"));
+                    console.log(detailChild.attr("data-website"));
+                    console.log(detailChild.attr("data-map-url"));
                     singleWaypointAttractions.push({
-                        placeID: "",
-                        address: "",
-                        website: "",
-                        googleMaps: ""
+                        placeID: detailChild.attr("data-place-id"),
+                        address: detailChild.attr("data-addr"),
+                        phone: detailChild.attr("data-phone"),
+                        website: detailChild.attr("data-website"),
+                        googleMaps: detailChild.attr("data-map-url")
                     });
                 }
-                debugger
-/*  
-        let request = { placeId: $(this).attr("data-place-id") };
-                element.attr("data-addr", place.formatted_address); 
-                element.attr("data-phone", place.formatted_phone_number);
-                element.attr("data-website", place.website);
-                element.attr("data-map-url", place.url);
-*/
-
-
-
-
             }
+            arrayOfWaypointAttractions.push(singleWaypointAttractions);
         }
+        console.log(arrayOfWaypointAttractions);
+        debugger
 
 
         // store in firebase
