@@ -2,6 +2,36 @@ body {
   background-image: url("../images/roadRoverBackground.jpg")
 }
 
+.attractionDetail div {
+  margin-left: 40px;
+
+}
+fieldset {
+  color: rgb(206, 93, 0);
+  font-family: 'Nunito', sans-serif;
+  font-weight: bold;
+  opacity: 0.80;
+  text-indent: 5px;
+}
+
+legend {
+  cursor: pointer;
+}
+
+.pure-form legend {
+  color: black;
+  background-color: #faac38;
+  font-weight: bolder;
+  text-transform: uppercase;
+  text-indent: 5px;
+  border-radius: 10px;
+}
+
+.attraction {
+  background-color:#faac38;
+  color: rgb(100, 53, 0);
+}
+
 .attraction label, .attraction input, .attraction span {
     display: inline;
   }
@@ -10,29 +40,8 @@ body {
     font-weight:bolder;
   }
   
-  legend {
-    font-weight: bolder;
-    cursor: pointer;
-    color: white;
-    text-decoration: double dotted;
-
-  }
-
-  .attractionDetail span {
-    text-shadow: 1px 1px white;
-    text-transform: uppercase;
-  }
-  
-  .attraction {
-    margin: 0 0 1em 0;
-  }
-  
   .attraction span {
     margin: 0 0 0 .5em;
-  }
-  
-  .attraction span div {
-    margin: 0 0 0 2em;
   }
   
   form {
@@ -97,25 +106,11 @@ body {
     padding: 15px 15px 15px 15px;
   }
   
-  #citySelection {
-    text-align:center;
-    margin: 1em auto;
-    padding: 1em;
-  }
-  
-  #map {
-    height: 400px;
-    min-height: 60%;
-    width: 100%;
-  }
-  
   label {
-    color: white;
-    font-weight: bolder;
-    font-family: 'Quicksand', sans-serif;
-    font-size: 18px;
-    padding: 2px;
-  }
+    font-family: 'Nunito Sans', sans-serif; 
+    font-weight: bold;
+    color: black;
+    }
   
   .button-sendCities {
     font-family: 'Quicksand', sans-serif;
@@ -144,7 +139,6 @@ body {
     font-family: 'Quicksand', sans-serif;
     text-shadow: 2px 2px black;
   }
-
 
 .moreInfo {
   cursor: pointer;
