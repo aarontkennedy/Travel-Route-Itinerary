@@ -200,6 +200,7 @@ function listenForRequestForMoreAttractionDetails() {
 
     });
 }
+
 var pdfDoc = new jsPDF();
 
 
@@ -212,9 +213,9 @@ function listenForFormSubmit() {
 
         $("#itineraryKey").val(firebaseItineraryKey);
 
-        var itineraryCon = $("#itineraryContainer")[0];
+        // var itineraryCon = $("#itineraryContainer")[0];
 
-        console.log(itineraryCon);
+        // console.log(itineraryCon);
 
         pdfDoc.text($("#itineraryContainer").text(), 5, 5);
 
