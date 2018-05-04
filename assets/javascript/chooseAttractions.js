@@ -34,8 +34,8 @@ function initialize() {
 
                     numberOfGeocodeCallsToWaitFor++;
                     geocoder.geocode({
-                            'location': dbSnapshot.waypoints[i].latlng
-                        },
+                        'location': dbSnapshot.waypoints[i].latlng
+                    },
                         function (results, status) {
 
                             numberOfGeocodeCallsToWaitFor--;
@@ -140,7 +140,7 @@ function listenForWaypointInfoRequest() {
                     //let attractionsContainer = $("<div>");
                     //attractionsContainer.addClass("attractions");
 
-                    for (var i = 0; i < attractionsLimit /*results.length*/ ; i++) {
+                    for (var i = 0; i < attractionsLimit /*results.length*/; i++) {
                         var place = results[i];
                         console.log(place);
 
@@ -212,13 +212,25 @@ function listenForFormSubmit() {
 
         $("#itineraryKey").val(firebaseItineraryKey);
 
+        // hide all attractions not checked 
+        let labels = $("label");
+        for (let i = 0; i < labels.length; i++) {
+            if (!$(labels[i]).children("input")[0].checked) {
+                $(labels[i]).parent().hide();
+            }
+        }
+
         var itineraryCon = $("#itineraryContainer")[0];
+
 
         console.log(itineraryCon);
 
+        pdfDoc.setFontSize(12);
         pdfDoc.text($("#itineraryContainer").text(), 5, 5);
+        pdfDoc.textWithLink('Click here', 20, 20, { url: 'http://www.google.com' });
 
         pdfDoc.save('roadRover.pdf');
+
 
         /*
         let arrayOfWaypointAttractions = [];
