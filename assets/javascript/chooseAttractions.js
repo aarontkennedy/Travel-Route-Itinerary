@@ -200,6 +200,7 @@ function listenForRequestForMoreAttractionDetails() {
 
     });
 }
+
 var pdfDoc = new jsPDF();
 
 
