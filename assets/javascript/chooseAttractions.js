@@ -33,7 +33,9 @@ function initialize() {
                 if (!dbSnapshot.waypoints[i].address && dbSnapshot.waypoints[i].latlng) {
 
                     numberOfGeocodeCallsToWaitFor++;
-                    geocoder.geocode({ 'location': dbSnapshot.waypoints[i].latlng },
+                    geocoder.geocode({
+                            'location': dbSnapshot.waypoints[i].latlng
+                        },
                         function (results, status) {
 
                             numberOfGeocodeCallsToWaitFor--;
@@ -54,8 +56,7 @@ function initialize() {
                                 database.ref(itineraryPath).child(firebaseItineraryKey).update({
                                     waypoints: dbSnapshot.waypoints
                                 });
-                            }
-                            else {
+                            } else {
                                 console.log('Geocode was not successful for the following reason: ' + status);
                             }
 
@@ -65,8 +66,7 @@ function initialize() {
 
             addItineraryWaypoints();
         });
-    }
-    else {
+    } else {
         console.log("Return to original page, no key found.");
         returnToMainPageWithError("noKey");
     }
@@ -77,6 +77,7 @@ function initialize() {
 // the following two functions run through the waypoints returned 
 // from firebase and create them as fields in the form.
 let itineraryContainer = $("#itineraryContainer");
+
 function addWaypoint(address, latlng, ) {
     let node = $(`<fieldset>
         <legend data-address="${address}" 
@@ -122,8 +123,7 @@ function listenForWaypointInfoRequest() {
         let waypointElement = $(this);
         if ($(this).attr("data-loaded")) {
             $(this).parent().children().show();
-        }
-        else { // request information from google places
+        } else { // request information from google places
             $(this).attr("data-loaded", "true");
 
             let request = {
@@ -140,7 +140,7 @@ function listenForWaypointInfoRequest() {
                     //let attractionsContainer = $("<div>");
                     //attractionsContainer.addClass("attractions");
 
-                    for (var i = 0; i < attractionsLimit/*results.length*/; i++) {
+                    for (var i = 0; i < attractionsLimit /*results.length*/ ; i++) {
                         var place = results[i];
                         console.log(place);
 
@@ -154,7 +154,7 @@ function listenForWaypointInfoRequest() {
                             more    
                             </span>
                             </div>`;
-                            waypointElement.parent().append($(attraction));
+                        waypointElement.parent().append($(attraction));
                     }
                 }
             });
@@ -168,7 +168,9 @@ function listenForRequestForMoreAttractionDetails() {
     $("#itineraryContainer").on("click", ".attractionDetail", function (event) {
         let element = $(this);
 
-        let request = { placeId: $(this).attr("data-place-id") };
+        let request = {
+            placeId: $(this).attr("data-place-id")
+        };
 
         placesService.getDetails(request, function (place, status) {
             element.removeClass("moreInfo");
@@ -176,7 +178,7 @@ function listenForRequestForMoreAttractionDetails() {
                 console.log(place);
 
                 // store the data somewhere accessible as a data-attr 
-                element.attr("data-addr", place.formatted_address); 
+                element.attr("data-addr", place.formatted_address);
                 element.attr("data-phone", place.formatted_phone_number);
                 element.attr("data-website", place.website);
                 element.attr("data-map-url", place.url);
@@ -198,13 +200,27 @@ function listenForRequestForMoreAttractionDetails() {
 
     });
 }
+var pdfDoc = new jsPDF();
 
 
 // listen for form submit on itineraryContainer
 function listenForFormSubmit() {
-    
+
+    // $("#itineraryContainer").on("submit", function (event) {
     $("#itineraryContainer").on("submit", function (event) {
+        event.preventDefault();
+
         $("#itineraryKey").val(firebaseItineraryKey);
+
+        var itineraryCon = $("#itineraryContainer")[0];
+
+        console.log(itineraryCon);
+
+        pdfDoc.text($("#itineraryContainer").text(), 5, 5);
+
+        pdfDoc.save('roadRover.pdf');
+
+        /*
         let arrayOfWaypointAttractions = [];
 
         // cruise through each waypoint on the page
@@ -247,7 +263,7 @@ function listenForFormSubmit() {
 
 
         // store in firebase
-
+*/
     });
-} 
+}
 listenForFormSubmit();
