@@ -46,5 +46,14 @@ img.poweredByGoogle {
   margin:.5em;
 }
 
+form div, form h4 {
+  margin-left: 1em;
+}
 
+form p {
+  margin-left: 2em;
+}
 
+.textCenter {
+  text-align:center;
+}

@@ -21,6 +21,12 @@ $(document).ready(function () {
         // from firebase else epic fail
         if (firebaseItineraryKey) {
             $("#itineraryKey").val(firebaseItineraryKey);
+
+            let shareLink = `https://tarose412.github.io/Travel-Route-Itinerary/final.html?itinerarykey=${firebaseItineraryKey}`;
+            $("#shareableLink").text(shareLink);
+            $("#shareableLink").attr("href", shareLink);
+
+
             database.ref(itineraryPath).child(firebaseItineraryKey).once('value').then(function (snapshot) {
                 console.log(snapshot.val());
                 snapshot = snapshot.val();
