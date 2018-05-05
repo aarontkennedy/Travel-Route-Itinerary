@@ -13,6 +13,7 @@ $(document).ready(function () {
     let snapshot = null;
     let waypoints = null;
     let attractions = null;
+    let shareLink = null;
 
     let formContainer = $("#itineraryContainer");
     function initialize() {
@@ -22,7 +23,7 @@ $(document).ready(function () {
         if (firebaseItineraryKey) {
             $("#itineraryKey").val(firebaseItineraryKey);
 
-            let shareLink = `https://tarose412.github.io/Travel-Route-Itinerary/final.html?itinerarykey=${firebaseItineraryKey}`;
+            shareLink = `https://tarose412.github.io/Travel-Route-Itinerary/final.html?itinerarykey=${firebaseItineraryKey}`;
             $("#shareableLink").text(shareLink);
             $("#shareableLink").attr("href", shareLink);
 
@@ -65,7 +66,7 @@ $(document).ready(function () {
     function PDFDocument() {
         this.p = new jsPDF();
         this.currentLine = 10;
-        this.linesPerPage = 250;
+        this.linesPerPage = 275;
     }
     PDFDocument.prototype.checkIfNewPage = function () {
         if (this.currentLine > this.linesPerPage) {
@@ -116,6 +117,7 @@ $(document).ready(function () {
             $("#itineraryKey").val(firebaseItineraryKey);
 
             pdf.printHeader("Road Rover");
+            pdf.printLink(shareLink);
 
             for (let i = waypoints.length - 1; i >= 0; i--) {
 
