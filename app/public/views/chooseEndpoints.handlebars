@@ -1,0 +1,28 @@
+<section class="container">
+    <div class="row">
+        <div class="col">
+            <h2>Step 1: Choose your starting and end points.</h2>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <form id="citySelection" action="/routeAndWaypoints/{{userID}}" method="POST" class="">
+                <input type="hidden" id="itineraryKey" name="itinerarykey" />
+                <div class="">
+                    <fieldset>
+                        <label for="startingLocation">Starting Location:</label>
+                        <input class="geocomplete" id="startingLocation" type="text" placeholder="">
+
+                        <label for="Destination">Destination:</label>
+                        <input class="geocomplete" id="finalDestination" type="text" placeholder="">
+                        <br>
+                        <button type="submit" class="button-sendCities" id="planTrip">
+                            <i class=""></i>
+                            Start planning!
+                        </button>
+                    </fieldset>
+                </div>
+            </form>
+        </div>
+    </div>
+</section>

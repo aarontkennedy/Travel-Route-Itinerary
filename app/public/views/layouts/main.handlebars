@@ -14,25 +14,22 @@
 
 <body>
 
-    <header class="container mb-5">
+    <header class="container">
         <div class="row p-2">
-            <div class="col text-right">
+            <div class="d-none d-md-block col-md-6 text-left">
+                <h1>
+                    <i class="fas fa-road"></i> Road Rover</h1>
+            </div>
+            <div class="col-12 col-md-6 text-right">
                 {{#if eater.name}} Welcome, {{eater.name}}! {{/if}} {{#if signedIn}}
-                <a id="signInButton" class="btn btn-warning" href="/" role="button">Sign Out
+                <a id="signInButton" class="btn btn-warning btn-sm" href="/" role="button">Sign Out
                     <i title="Google Signin Required" class="fab fa-google"></i>
                 </a>
                 {{else}}
-                <a id="signInButton" class="btn btn-warning" href="signin" role="button">Sign In
+                <a id="signInButton" class="btn btn-warning btn-sm" href="/signin" role="button">Sign In
                     <i title="Google Signin Required" class="fab fa-google"></i>
                 </a>
                 {{/if}}
-            </div>
-        </div>
-        <div class="row">
-            <div class="col text-center">
-                <h1>
-                    Road Rover
-                </h1>
             </div>
         </div>
     </header>
@@ -54,16 +51,19 @@
         </ul>
     </footer>
 
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAu3dol7hruwWbLi5SkZ5T_iJS6ru89i3w&libraries=places"></script>
     <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
         crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
         crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js" integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T"
-        crossorigin="anonymous"></script>
-    <script type="text/javascript" src="js/jquery.autocomplete.js"></script>
-
-    <script type="text/javascript" src="js/clientSideApp.js"></script>
-
+        crossorigin="anonymous"></script> 
+    {{#if signedIn}}
+        {{#if script}}
+    <script src="/js/{{script}}.js"></script> 
+        {{/if}}
+    <script src="/js/jquery.geocomplete.min.js"></script>
+    {{/if}}
     <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/all.js" integrity="sha384-xymdQtn1n3lH2wcu0qhcdaOpQwyoarkgLVxC/wZ5q7h9gHtxICrpcaSUfygqZGOe"
         crossorigin="anonymous"></script>
 

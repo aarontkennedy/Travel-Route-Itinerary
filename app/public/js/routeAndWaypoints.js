@@ -13,16 +13,6 @@ let waypointMarkers = [];
 let tripLocations = [];
 
 
-let firebaseItineraryKey = GetURLParameter('itinerarykey');
-
-function returnToMainPageWithError(error) {
-    // if the domain changes, this changes?!?!?!?!
-    // i don't think you can replace with local files
-    let url = 'https://tarose412.github.io/Travel-Route-Itinerary/index.html';
-    error = encodeURIComponent(error);
-    window.location.replace(`${url}?error=${error}`)
-}
-
 function initMap() {
     geocoder = new google.maps.Geocoder();
 
@@ -33,7 +23,7 @@ function initMap() {
         center: new google.maps.LatLng(41.85, -87.65),
         scrollwheel: false
     });
-
+/*
     // we should have an itinerary key and we can pull the city data
     // from firebase else epic fail and return to index.html
     if (firebaseItineraryKey) {
@@ -94,11 +84,11 @@ function initMap() {
     else {
         // return to original page
         returnToMainPageWithError("NoKey");
-    }
+    }*/
 
 }  // called by the google maps api callback
 
-
+/*
 
 function displayRoute() {
     // poll and make sure we have the lat/lng for our two endpoints
@@ -155,11 +145,7 @@ function displayRoute() {
                     origins: [startingPointAddress, startingPointLatLng],
                     destinations: [destinationAddress, destinationLatLng],
                     travelMode: 'DRIVING',
-                    /*transitOptions: TransitOptions,
-                    drivingOptions: DrivingOptions,*/
                     unitSystem: google.maps.UnitSystem.IMPERIAL,
-                    /*avoidHighways: Boolean,
-                    avoidTolls: Boolean,*/
                 }, callback);
 
             function callback(response, status) {
@@ -257,5 +243,5 @@ function setUpCustomWaypointButtons() {
 
 
         }
-    }, 250);
-}
+    }, 250); 
+}*/

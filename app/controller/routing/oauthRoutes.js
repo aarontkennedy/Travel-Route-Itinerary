@@ -44,9 +44,6 @@ module.exports = function (app) {
         res.redirect(authorizeUrl); // send them to google
     });
 
-
-    const orm = require("../../database/orm.js");
-
     app.get("/oauth2callback", async function (req, res) {
 
         const querystring = require('querystring');
@@ -59,25 +56,19 @@ module.exports = function (app) {
             oAuth2Client.credentials = tokens;
         }
         catch (error) {
-            // if i reload the page, the grabbing of the token fails
+            // if i load the home page, the grabbing of the token fails
             console.error(error);
-            return res.render("homeSignedOut", {signedIn: false});
+            return res.render("index", {signedIn: false});
         }
 
         //console.log("awaiting user info");
         const result = await plus.people.get({ userId: 'me' });
-        //console.log(result.data);
-        const eater = {id: result.data.id, name: result.data.displayName};
-        orm.addEater(eater.id, eater.name, function (error, results) {
-                if (error) {
-                    console.log(error);
-                    return res.sendStatus(500);
-                }
-                res.render("homeSignedIn", {
-                    signedIn: true,
-                    eater: eater
-                });
-            });
+        console.log(result.data);
+        
+        // store the google information/user info here
+        
+        // we have that token in our url currently - redirect to get rid of it and pass the user id to the next step/page
+        res.redirect("/chooseEndpoints/"+result.data.id);
     });
 
 }
