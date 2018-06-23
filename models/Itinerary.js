@@ -5,7 +5,14 @@ module.exports = function (sequelize, DataTypes) {
     // on a particular itinerary
 
     Itinerary.associate = function (models) {
-        Itinerary.belongsTo(models.User);
+        Itinerary.hasMany(models.Waypoint, {
+            onDelete: "cascade"
+        });
+        Itinerary.belongsTo(models.User, {
+            foreignKey: {
+                allowNull: false
+            }
+        });
     };
 
     return Itinerary;

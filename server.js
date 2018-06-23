@@ -25,15 +25,15 @@ app.use(bodyParser.json());
 app.use(express.static('app/public'));
 
 // Get the routes
-require('./app/controller/routing/staticRoutes.js')(app);
-//require('./app/controller/routing/dynamicRoutes.js')(app);
+require('./app/controller/routing/htmlRoutes.js')(app);
+//require('./app/controller/routing/apiRoutes.js')(app);
 require('./app/controller/routing/oauthRoutes.js')(app);
 
 // Starts the server to begin listening
 // =========================================================
 // load the models + sequelize
 let db = require("./models");
-db.sequelize.sync().then(function () {
+db.sequelize.sync({force:true}).then(function () {
   app.listen(PORT, function () {
     console.log("App listening on PORT " + PORT);
   });

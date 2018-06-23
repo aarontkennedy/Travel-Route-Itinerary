@@ -1,28 +1,30 @@
 <section class="container">
-    <div class="row">
-        <div class="col">
-            <h2>Step 1: Choose your starting and end points.</h2>
+    <div class="whiteBackgroundWrapper">
+        <div class="row">
+            <div class="col">
+                <h2 class="step">Step 1: Choose your starting and end locations.</h2>
+            </div>
         </div>
-    </div>
-    <div class="row">
-        <div class="col">
-            <form id="citySelection" action="/routeAndWaypoints/{{userID}}" method="POST" class="">
-                <input type="hidden" id="itineraryKey" name="itinerarykey" />
-                <div class="">
-                    <fieldset>
-                        <label for="startingLocation">Starting Location:</label>
-                        <input class="geocomplete" id="startingLocation" type="text" placeholder="">
-
-                        <label for="Destination">Destination:</label>
-                        <input class="geocomplete" id="finalDestination" type="text" placeholder="">
-                        <br>
-                        <button type="submit" class="button-sendCities" id="planTrip">
-                            <i class=""></i>
-                            Start planning!
-                        </button>
+        <div class="row text-center">
+            <div class="col form-group">
+                <form id="citySelection" action="/routeAndWaypoints/{{userID}}" method="POST">
+                    <fieldset class="row mt-5 mb-5">
+                        <div class="col-12 col-md-6 text-left">
+                            <label for="startingLocation">Starting Location:</label>
+                            <input class="geocomplete form-control form-control-lg" name="start" type="text" placeholder="Start" required>
+                        </div>
+                        <div class="col-12 col-md-6 text-left">
+                            <label for="Destination">Destination:</label>
+                            <input class="geocomplete form-control form-control-lg" name="destination" type="text" placeholder="End" required>
+                        </div>
                     </fieldset>
-                </div>
+                    <button type="submit" class="btn btn-warning btn-lg button-sendCities" id="planTrip">
+                        <i class=""></i>
+                        Start planning!
+                    </button>
+            </div>
             </form>
         </div>
+    </div>
     </div>
 </section>

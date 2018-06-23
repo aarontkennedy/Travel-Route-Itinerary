@@ -4,136 +4,76 @@ html, body {
 body {
   display: flex;
   flex-direction: column;
-}
-
-body{
-  background-image: url("../images/roadRoverBackground.jpg")
-}
-
-nav {
-  background-color: black;
-  color: orange;
-  flex-shrink: 0;
-}
-
-nav h1 {
-  padding-left: 1em;
-  font-family: 'Delius Unicase', cursive;
-  text-transform: uppercase;
-  text-align: left;
-  text-shadow: 2px 2px white;
-  font-size: 40px;
-  white-space: nowrap;
+  color: lightcyan;
+  background-color: darkblue;
+  background: url("/images/caleb-whiting-101737-unsplash.jpg") no-repeat center center fixed; 
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
 }
 
 section {
   flex: 1 0 auto;
 }
 
-h2 {
-  text-align: center;
-  font-family: 'Nunito', sans-serif;
-  font-size: 50px;
+.whiteBackgroundWrapper {
+  color: black;
+  background-color: white;
+  border-radius: 1em;
+  padding: .1em 1.25em 2em 1.25em;
 }
 
 footer {
-  margin-top: auto;
   flex-shrink: 0;
-  background-color: black;
-  font-family: 'VT323', monospace;
   text-align: center;
-  padding: 1em;
-  font-size: 14px;
-  color: white;
 }
 
-.banner {
-  background-color: transparent;
-  border-radius: 4px;
-  width: 100%;
-  margin: 15px 15px 15px 15px;
-  padding: 15px 15px 15px 15px;
+footer ul {
+  list-style-type: none;
+  text-align: center;
 }
 
-#citySelection {
-  text-align:center;
-  margin: 1em auto;
-  padding: 1em;
+footer ul li {
+  margin: 0;
+  padding: 0;
+  display: inline;
+}
+
+footer ul li:after {
+  content: " | ";
+}
+
+footer ul li:last-child:after {
+  content: "";
+}
+
+.step {
+  text-align: center;
+  margin: .5em 0;
 }
 
 #map {
   height: 400px;
   min-height: 60%;
   width: 100%;
+  margin-bottom: .5em;
 }
 
-label {
-  color: white;
-  font-weight: bolder;
-  font-family: 'Quicksand', sans-serif;
-  font-size: 18px;
-  padding: 2px;
+.myButtons {
+  display: inline-block;
+  margin: .25em;
 }
 
-.button-sendCities {
-  font-family: 'Quicksand', sans-serif;
-  font-size: 16px;
-  font-weight: bolder;
-  background-color: silver;
-  border-radius: 4px;
+.stat {
+  display: inline-block;
 }
 
-#tripInfo {
-  padding: .5em;
-  text-align: center;
+.stat:after {
+  content: " - ";
 }
 
-#tripInfo span {
-  padding: 0 1em;
+#tripInfo .stat:last-child:after {
+  content: "";
 }
-
-#chooseWayPointsForm {
-  text-align:center;
-}
-
-#tripInfo {
-  color: white;
-  font-weight: bold;
-  font-family: 'Quicksand', sans-serif;
-  text-shadow: 2px 2px black;
-}
-
-.button-primary,
-.button-error,
-.button-warning,
-.button-secondary {
-    color: white;
-    border-radius: 4px;
-    font-family: 'Quicksand', sans-serif;
-    font-size: 16px;
-    font-weight: bolder;
-}
-
-.button-primary {
-    background: rgb(28, 184, 65); /* this is a green */
-}
-
-.button-error {
-    background: rgb(202, 60, 60); /* this is a maroon */
-}
-
-.button-warning {
-    background: rgb(223, 117, 20); /* this is an orange */
-}
-
-.button-secondary {
-    background: rgb(66, 184, 221); /* this is a light blue */
-}
-
-img.poweredByGoogle {
-  float:right;
-  margin:.5em;
-}
-
-
 

@@ -1,7 +1,34 @@
-<section class="">
-    <form method="GET" action="final.html" class="" id="itineraryContainer" method="GET">
+<section class="container-fluid">
+    <div class="whiteBackgroundWrapper">
+        <div class="row">
+            <div class="col">
+                <h2 class="step">Step 3: Choose attractions that interest you.</h2>
+            </div>
+        </div>
 
-        <input type="hidden" id="itineraryKey" name="itinerarykey" />
-        <button type="submit" class="" id="submitAttractions">Save</button>
-    </form>
+        <form class="text-center">
+            <div>
+                <button class="btn btn-success myButtons submitAttractionsDrive">
+                    <i class="fab fa-google-drive"></i>
+                    </i> Google Drive</button>
+                <button class="btn btn-primary myButtons submitAttractionsPDF">
+                    <i class="far fa-file-pdf" title="Save as a PDF"></i> PDF</button>
+                <a href="/chooseEndpoints/{{userID}}" class="btn btn-danger myButtons">
+                    <i class="fas fa-sync-alt" title="Restart"></i> Restart</a>
+            </div>
+
+
+
+
+            <div>
+                <button class="btn btn-success btn-lg myButtons submitAttractionsDrive">
+                    <i class="fab fa-google-drive"></i>
+                    </i> Google Drive</button>
+                <button class="btn btn-primary btn-lg myButtons submitAttractionsPDF">
+                    <i class="far fa-file-pdf" title="Save as a PDF"></i> PDF</button>
+                <a href="/chooseEndpoints/{{userID}}" class="btn btn-danger btn-lg myButtons">
+                    <i class="fas fa-sync-alt" title="Restart"></i> Restart</a>
+            </div>
+        </form>
+    </div>
 </section>

@@ -1,5 +1,5 @@
 module.exports = function (sequelize, DataTypes) {
-    
+
     let Waypoint = sequelize.define("Waypoint", {
         // these may need to be temporarily null?
         // i don't always have both pieces of info at the same time
@@ -9,7 +9,11 @@ module.exports = function (sequelize, DataTypes) {
     });
 
     Waypoint.associate = function (models) {
-        Waypoint.belongsTo(models.Itinerary);
+        Waypoint.belongsTo(models.Itinerary, {
+            foreignKey: {
+                allowNull: false
+            }
+        });
     };
 
     return Waypoint;

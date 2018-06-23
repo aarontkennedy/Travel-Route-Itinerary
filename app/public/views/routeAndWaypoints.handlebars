@@ -1,15 +1,31 @@
-<div id="map">
+<section class="container-fluid">
+    <div class="whiteBackgroundWrapper">
+        <div class="row">
+            <div class="col">
+                <h2 class="step">Step 2: Choose waypoints along your route.</h2>
+            </div>
+        </div>
 
-</div>
+        <div id="map">
+        </div>
 
-<section class="">
-    <div class="" id="tripInfo"></div>
-    <form id="chooseWayPointsForm" class="" action="chooseAttractions.html" method="GET">
-        <input type="hidden" id="itineraryKey" name="itinerarykey" />
-        <button class="" id="addWaypoint">Add a Waypoint Marker</button>
-        <button class="" id="removeWaypoint">Remove Last Waypoint Marker</button>
-        <button class="" type="submit" id="submitWaypoints">Start Finding Attractions</button>
-        <button class="" id="restart">Restart</button>
-    </form>
+        <div id="tripInfo" class="text-center"></div>
+
+        <form id="chooseWayPointsForm" class="text-center" action="/chooseAttractions/{{userID}}" method="POST">
+            <input type="hidden" name="startingAddress" value="{{startingAddress}}">
+            <input type="hidden" name="endingAddress" value="{{endingAddress}}">
+            <input type="hidden" name="waypointsChosen" value="">
+            <input type="hidden" name="startingAddressLatLng" value="">
+            <input type="hidden" name="endingAddressLatLng" value="">
+
+            <button class="btn btn-success btn-lg myButtons addWaypoint">
+                <i class="fas fa-plus-circle" title="Add Waypoint"></i> Waypoint</button>
+            <button class="btn btn-warning btn-lg myButtons removeWaypoint">
+                <i class="fas fa-minus-circle" title="Remove Waypoint"></i> Waypoint</button>
+            <button class="btn btn-primary btn-lg myButtons" type="submit">
+                <i class="fas fa-search-plus" title="Find Attractions"></i> Find Attractions</button>
+            <a href="/chooseEndpoints/{{userID}}" class="btn btn-danger btn-lg myButtons">
+                <i class="fas fa-sync-alt" title="Restart"></i> Restart</a>
+        </form>
     </div>
 </section>
