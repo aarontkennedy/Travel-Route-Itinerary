@@ -58,17 +58,25 @@ module.exports = function (app) {
         catch (error) {
             // if i load the home page, the grabbing of the token fails
             console.error(error);
-            return res.render("index", {signedIn: false});
+            return res.render("index", { signedIn: false });
         }
 
         //console.log("awaiting user info");
-        const result = await plus.people.get({ userId: 'me' });
-        console.log(result.data);
-        
+        const googleResult = await plus.people.get({ userId: 'me' });
+        console.log(googleResult.data);
+
         // store the google information/user info here
-        
-        // we have that token in our url currently - redirect to get rid of it and pass the user id to the next step/page
-        res.redirect("/chooseEndpoints/"+result.data.id);
+        const db = require("../../../models/index.js");
+        db.User.upsert({
+            googleID: googleResult.data.id,
+            name: googleResult.data.displayName
+        }).then(function (result) {
+            console.log(result);
+            // need to do some kind of check on the status
+
+            // we have that token in our url currently - redirect to get rid of it and pass the user id to the next step/page
+            res.redirect("/chooseEndpoints/" + googleResult.data.id);
+        });
     });
 
 }

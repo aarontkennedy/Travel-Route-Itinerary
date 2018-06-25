@@ -7,20 +7,12 @@
         </div>
 
         <form class="text-center">
-            <div>
-                <button class="btn btn-success myButtons submitAttractionsDrive">
-                    <i class="fab fa-google-drive"></i>
-                    </i> Google Drive</button>
-                <button class="btn btn-primary myButtons submitAttractionsPDF">
-                    <i class="far fa-file-pdf" title="Save as a PDF"></i> PDF</button>
-                <a href="/chooseEndpoints/{{userID}}" class="btn btn-danger myButtons">
-                    <i class="fas fa-sync-alt" title="Restart"></i> Restart</a>
-            </div>
+            {{#each waypoints}}
+            <fieldset class="waypoint" data-lat="{{this.lat}}" data-lng="{{this.lng}}" data-address="{{this.address}}">
+            </fieldset>
+            {{/each}}
 
-
-
-
-            <div>
+            <fieldset>
                 <button class="btn btn-success btn-lg myButtons submitAttractionsDrive">
                     <i class="fab fa-google-drive"></i>
                     </i> Google Drive</button>
@@ -28,7 +20,7 @@
                     <i class="far fa-file-pdf" title="Save as a PDF"></i> PDF</button>
                 <a href="/chooseEndpoints/{{userID}}" class="btn btn-danger btn-lg myButtons">
                     <i class="fas fa-sync-alt" title="Restart"></i> Restart</a>
-            </div>
+            </fieldset>
         </form>
     </div>
 </section>
