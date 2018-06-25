@@ -7,6 +7,124 @@ const maxAttractions = 5;
 
 $(document).ready(function () {
 
+    function Attraction() {
+        this.container = null;
+        this.checkbox = null;
+    }
+    Attraction.prototype.show = function () {
+        this.container.show();
+    }
+    Attraction.prototype.hide = function () {
+        this.container.hide();
+    };
+    Attraction.prototype.isChecked = function () {
+        let result = this.checkbox[0].checked;
+        return result;
+    };
+
+    function ZomatoRestaurant(restaurantInfo, parentNode) {
+        this.placeID = restaurantInfo.R.res_id;
+        this.name = restaurantInfo.name;
+        this.parentNode = parentNode;
+        this.address = restaurantInfo.location.address;
+        this.description = restaurantInfo.cuisines;
+        this.website = restaurantInfo.url;
+
+        // print what we know now
+        this.container = $(`<div class="zomatoRestaurant">`);
+        this.label = $(`<label for="${this.placeID}">${this.name}</label>`);
+        this.checkbox = $(`<input type="checkbox" value="${this.name}" 
+            id="${this.placeID}"></input>`);
+
+        this.label.prepend(this.checkbox);
+        this.container.append(this.label);
+        this.parentNode.append(this.container);
+    }
+
+    ZomatoRestaurant.prototype = new Attraction();
+
+    function GoogleAttraction(name, placeID, parentNode) {
+        this.name = name;
+        this.placeID = placeID;
+        this.parentNode = parentNode;
+        this.loadedDetails = false;
+        this.address = "";
+        this.phone = "";
+        this.website = "";
+        this.googleMaps = "";
+
+        // print what we know now
+        this.container = $(`<div class="googleAttraction">`);
+        this.label = $(`<label for="${this.placeID}">${this.name}</label>`);
+        this.checkbox = $(`<input type="checkbox" value="${this.name}" 
+            id="${this.placeID}"></input>`);
+
+        this.label.prepend(this.checkbox);
+        this.container.append(this.label);
+        this.parentNode.append(this.container);
+    }
+
+    GoogleAttraction.prototype = new Attraction();
+
+    GoogleAttraction.prototype.show = function () {
+        this.loadDetails();
+        this.container.show();
+    };
+
+    GoogleAttraction.prototype.loadDetails = function () {
+
+        if (!this.loadedDetails) {
+            // get more details!
+            let detailRequest = { placeId: this.placeID };
+            let self = this;
+            placesService.getDetails(detailRequest, function (placeDetail, status) {
+                if (status == google.maps.places.PlacesServiceStatus.OK) {
+                    console.log(placeDetail);
+
+                    self.address = placeDetail.formatted_address;
+                    self.phone = placeDetail.formatted_phone_number;
+                    self.website = placeDetail.website;
+                    self.googleMaps = placeDetail.url;
+
+                    self.checkbox.attr("data-addr", self.address);
+                    self.checkbox.attr("data-phone", self.phone);
+                    self.checkbox.attr("data-website", self.website);
+                    self.checkbox.attr("data-map-url", self.googleMaps);
+
+                    self.container.append(`<p>${self.address}</p>`);
+                    if (self.phone) {
+                        self.container.append(`<p>${self.phone}</p>`);
+                    }
+                    if (self.website) {
+                        let p = $("<p>");
+                        let link = $("<a>");
+                        link.attr("href", self.website);
+                        link.attr("title", self.website);
+                        link.attr("target", "_blank");
+                        link.text(self.website);
+                        self.container.append(p.append(link));
+                    }
+
+                    let p = $("<p>");
+                    let link = $("<a>");
+                    link.attr("href", self.googleMaps);
+                    link.attr("title", self.googleMaps);
+                    link.attr("target", "_blank");
+                    link.text("See in Google Maps");
+                    self.container.append(p.append(link));
+                    // succeeded
+                    self.loadedDetails = true;
+                }
+                else {
+                    // didn't succeed, but we can try again in the future on a 
+                    // subsequent show since we didn't set loadedDetails to true here
+                    console.log(status);
+                }
+            });
+        }
+    };
+
+
     function Waypoint(fieldsetElementWithData) {
         this.element = $(fieldsetElementWithData);
         this.address = this.element.attr("data-address");
@@ -23,6 +141,11 @@ $(document).ready(function () {
                             data-lng="${this.latlng.lng}">
                             ${this.address}</legend>`);
         this.element.append(this.legendNode);
+
+        this.googleAttractionsDiv = $("<div>");
+        this.element.append(this.googleAttractionsDiv);
+        this.zomatosRestaurantDiv = $("<div>");
+        this.element.append(this.zomatosRestaurantDiv);
 
         // handle the situation where we have a waypoints lat/lng, but no address
         let self = this;
@@ -64,10 +187,9 @@ $(document).ready(function () {
                     results.length : maxAttractions);
 
                 for (let i = 0; i < numAttractions; i++) {
-                    self.element.append(`<p>${results[i].name}</p>`);
-                    /*self.googleAttractions.push(new Attraction(results[i].name,
+                    self.googleAttractions.push(new GoogleAttraction(results[i].name,
                         results[i].place_id,
-                        self.fieldSetNode));*/
+                        self.googleAttractionsDiv));
                 }
             }
         });
@@ -89,15 +211,12 @@ $(document).ready(function () {
             },
         }).done(function (data) {
             console.log(data);
-            for (let i = 0; i < data.results_shown-1; i++) {
-                self.element.append(`<p>${data.restaurants[i].restaurant.name}</p>`);
-                /*self.zomatoRestaurants.push(new Attraction(results[i].name,
-                    results[i].place_id,
-                    self.fieldSetNode));*/
+            for (let i = 0; i < data.results_shown - 1; i++) {
+                self.zomatoRestaurants.push(new ZomatoRestaurant(data.restaurants[i].restaurant, self.zomatosRestaurantDiv));
             }
         });
     };
-    
+
 
     /*
     Waypoint.prototype.handleToggleAttractionsDisplay = function () {
