@@ -9,6 +9,8 @@
         <form class="text-center">
             {{#each waypoints}}
             <fieldset class="waypoint" data-lat="{{this.lat}}" data-lng="{{this.lng}}" data-address="{{this.address}}">
+                <div class="tab googleAttraction"><i class="fab fa-google"></i> Attractions</div>
+                <div class="tab zomatoRestaurant"><i class="fas fa-utensils"></i> Restaurants</div>
             </fieldset>
             {{/each}}
 
