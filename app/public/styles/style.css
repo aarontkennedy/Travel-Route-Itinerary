@@ -106,4 +106,23 @@ fieldset {
   cursor: pointer;
 }
 
+#itineraryName {
+  margin-bottom: .5em;
+}
+
+#itineraryLink {
+  font-size: 80%;
+}
+
+.waypoint p , .waypoint h6 {
+  margin: 0 0 0 1em;
+  padding: 0;
+}
+
+.waypoint {
+  margin-bottom: 1em;
+}
+
+
+
 

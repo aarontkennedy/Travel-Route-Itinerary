@@ -9,8 +9,6 @@ const maxMetersSearchRange = 15000;
 $(document).ready(function () {
 
     function Attraction() {
-        this.container = null;
-        this.checkbox = null;
     }
     Attraction.prototype.show = function () {
         this.container.show();
@@ -29,16 +27,18 @@ $(document).ready(function () {
         this.name = restaurantInfo.name;
         this.parentNode = parentNode;
         this.address = restaurantInfo.location.address;
-        this.description = restaurantInfo.cuisines;
+        this.description = (restaurantInfo.cuisines ? restaurantInfo.cuisines : "Restaurant");
         this.website = restaurantInfo.url;
+        this.googleMaps = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(this.address)}`;
+        this.phone = "";  // zomato doesn't give the phone number
 
         // print what we know now
         this.container = $(`<div class="attraction zomatoRestaurant"/>`);
         this.label = $(`<label for="${this.placeID}">${this.name} (${this.description})</label>`);
         this.checkbox = $(`<input type="checkbox" value="${this.name}" 
-            id="${this.placeID}"></input>`);
+            name="${this.placeID}"></input>`);
         this.details = `
-        <p><a href="https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(this.address)}" target="_blank">${this.address}</a></p>
+        <p><a href="${this.googleMaps}" target="_blank">${this.address}</a></p>
         <p><a href="${this.website}" target="_blank">See more at Zomato</a></p>`;
 
         this.label.prepend(this.checkbox);
@@ -65,7 +65,7 @@ $(document).ready(function () {
         this.container = $(`<div class="attraction googleAttraction"/>`);
         this.label = $(`<label for="${this.placeID}">${this.name}</label>`);
         this.checkbox = $(`<input type="checkbox" value="${this.name}" 
-            id="${this.placeID}"></input>`);
+            name="${this.placeID}"></input>`);
 
         this.label.prepend(this.checkbox);
         this.container.append(this.label);
@@ -226,8 +226,6 @@ $(document).ready(function () {
             for (let i = 0; i < data.results_shown; i++) {
                 self.zomatoRestaurants.push(new ZomatoRestaurant(data.restaurants[i].restaurant, self.zomatosRestaurantDiv));
             }
-            console.log(self.address);
-            console.log(self.zomatoRestaurants);
         });
     };
 
@@ -307,6 +305,10 @@ $(document).ready(function () {
         });
     };
 
+    Waypoint.prototype.getAllAttractions = function () {
+        return this.googleAttractions.concat(this.zomatoRestaurants);
+    };
+
     function initialize() {
         geocoder = new google.maps.Geocoder();
         googlePlacesService = new google.maps.places.PlacesService($("<div></div>").get(0));
@@ -314,7 +316,41 @@ $(document).ready(function () {
         for (let i = 0; i < waypointFieldsets.length; i++) {
             localWaypointObjects.push(new Waypoint(waypointFieldsets[i]));
         }
+
+        listenForFormSubmit();
     }
     initialize();
+
+
+    // listen for form submit on itineraryContainer
+    function listenForFormSubmit() {
+
+        $("#attractionsForm").on("submit", function (event) {
+            //event.preventDefault();
+            let attractionsInfoForServer = [];
+
+            for (let i = 0; i < localWaypointObjects.length; i++) {
+                let waypointWithAttractions = {
+                    address: localWaypointObjects[i].address,
+                    attractions: []
+                };
+                let attractions = localWaypointObjects[i].getAllAttractions();
+                if (attractions) {
+                    for (let j = 0; j < attractions.length; j++) {
+                        if (attractions[j].isChecked()) {
+                            let a = {name: attractions[j].name,
+                            address: attractions[j].address,
+                            phone: attractions[j].phone,
+                            website: attractions[j].website,
+                            googleMapsURL: attractions[j].googleMaps };
+                            waypointWithAttractions.attractions.push(a);
+                        }
+                    }
+                }
+                attractionsInfoForServer.push(waypointWithAttractions);
+            }
+            $("input[name=itinerary]").val(JSON.stringify(attractionsInfoForServer));
+        });
+    }
 
 });

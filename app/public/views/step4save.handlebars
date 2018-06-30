@@ -1,0 +1,40 @@
+<section class="container">
+    <div class="whiteBackgroundWrapper">
+
+        <h2 id="itineraryName">{{itinerary.name}}</h2>
+        <h4 class="mb-4">
+            Shareable Link:
+            <a id="itineraryLink" href="/{{userID}}/{{itinerary.id}}">
+                /{{userID}}/{{itinerary.id}}
+            </a>
+        </h4>
+
+        {{#each itinerary.waypoints}}
+        <div class="waypoint">
+            <h5 class="waypointTitle">{{this.address}}</h5>
+            {{#each this.attractions}}
+            <div class="attraction">
+                <h6 class="attractionTitle">{{this.name}}</h6>
+                <p>
+                    <a class="attractionLink" href="{{this.googleMapsURL}}">{{this.address}}</a>
+                    {{#if this.phone}} -
+                    <span class="attractionPhone">{{this.phone}}</span>
+                </p>
+                {{/if}} {{#if this.website}}
+                <p>
+                    <a class="attractionWebsite" href="{{this.website}}">{{this.website}}</a>
+                </p>
+                {{/if}}
+            </div> 
+            {{/each}}
+        </div>
+        {{/each}}
+
+        <div class="text-center">
+            <button id="saveAsPDF" class="btn btn-primary btn-lg myButtons">
+                <i class="far fa-file-pdf" title="Save as PDF"></i> Save as PDF</button>
+        </div>
+
+    </div>
+
+</section>

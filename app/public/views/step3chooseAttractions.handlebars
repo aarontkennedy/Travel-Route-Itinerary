@@ -6,20 +6,23 @@
             </div>
         </div>
 
-        <form class="text-center">
+        <form id="attractionsForm" class="text-center" action="/save/{{userID}}/{{itineraryID}}" method="POST">
+            <input type="hidden" name="itineraryName" value="{{itineraryName}}">
+
+            <input type="hidden" name="itinerary" value="">            
+
             {{#each waypoints}}
             <fieldset class="waypoint" data-lat="{{this.lat}}" data-lng="{{this.lng}}" data-address="{{this.address}}">
-                <div class="tab googleAttraction"><i class="fab fa-google"></i> Attractions</div>
-                <div class="tab zomatoRestaurant"><i class="fas fa-utensils"></i> Restaurants</div>
+                <div class="tab googleAttraction">
+                    <i class="fab fa-google"></i> Attractions</div>
+                <div class="tab zomatoRestaurant">
+                    <i class="fas fa-utensils"></i> Restaurants</div>
             </fieldset>
             {{/each}}
 
             <fieldset>
-                <button class="btn btn-success btn-lg myButtons submitAttractionsDrive">
-                    <i class="fab fa-google-drive"></i>
-                    </i> Google Drive</button>
-                <button class="btn btn-primary btn-lg myButtons submitAttractionsPDF">
-                    <i class="far fa-file-pdf" title="Save as a PDF"></i> PDF</button>
+                <button class="btn btn-primary btn-lg myButtons">
+                    <i class="far fa-save" title="Save"></i> Save</button>
                 <a href="/chooseEndpoints/{{userID}}" class="btn btn-danger btn-lg myButtons">
                     <i class="fas fa-sync-alt" title="Restart"></i> Restart</a>
             </fieldset>
